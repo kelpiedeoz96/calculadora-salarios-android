@@ -1,1 +1,0 @@
-namespace CalculadoraDeSalarios.App.ViewModels;

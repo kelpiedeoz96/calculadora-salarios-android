@@ -23,3 +23,6 @@ data.json
 respaldos/
 
 *.hprof
+
+# Material de referencia (escritorio C#, especificación): solo lectura, no se versiona
+referencia/
