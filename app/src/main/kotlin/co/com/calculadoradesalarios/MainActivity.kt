@@ -3,19 +3,14 @@ package co.com.calculadoradesalarios
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.activity.enableEdgeToEdge
+import co.com.calculadoradesalarios.ui.AppNomina
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        setContent {
-            Greeting()
-        }
+        val repo = (application as NominaApp).repo
+        setContent { AppNomina(repo) }
     }
-}
-
-@Composable
-fun Greeting() {
-    Text(text = "Calculadora de Salarios Colombia")
 }

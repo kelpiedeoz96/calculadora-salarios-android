@@ -26,7 +26,7 @@ object LenientDoubleSerializer : KSerializer<Double> {
             if (element is JsonNull) return 0.0
             if (element is JsonPrimitive) {
                 return element.doubleOrNull
-                    ?: element.content.trim().replace(',', '.').toDoubleOrNull()
+                    ?: element.content.trim().toDoubleOrNull() // cultura invariante, como double.TryParse del C#: "2,5" no es válido
                     ?: 0.0
             }
             return 0.0
@@ -51,11 +51,14 @@ object JsonConfig {
         encodeDefaults = true
     }
 
+    /** Igual que ExportOpts del C#: escribe todos los campos y omite solo los null (WhenWritingNull). */
+    @OptIn(ExperimentalSerializationApi::class)
     val exportJson = Json {
         ignoreUnknownKeys = true
         isLenient = true
         prettyPrint = true
-        encodeDefaults = false
+        encodeDefaults = true
+        explicitNulls = false
     }
 }
 

@@ -26,3 +26,7 @@ respaldos/
 
 # Material de referencia (escritorio C#, especificación): solo lectura, no se versiona
 referencia/
+
+# Capturas de pantalla generadas por Roborazzi (se regeneran con recordRoborazziDebug)
+**/capturas/
+**/outputs/roborazzi/

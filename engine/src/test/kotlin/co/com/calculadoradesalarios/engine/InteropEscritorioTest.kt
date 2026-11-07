@@ -54,7 +54,7 @@ class InteropEscritorioTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["data_formato_actual_v1", "respaldo_sintetico"])
+    @ValueSource(strings = ["data_formato_actual_v1", "respaldo_sintetico", "data_campos_escritorio"])
     fun kotlin_GuardaElMismoJsonQueElEscritorio(nombre: String) {
         val entrada = recurso("$nombre.json")
         val esperado = recurso("$nombre.guardado_por_escritorio.json")
@@ -73,6 +73,31 @@ class InteropEscritorioTest {
 
         // Se deja una copia en build/ para poder abrirla con el escritorio (dirección inversa).
         File("build/interop-kotlin/$nombre").apply { mkdirs() }.resolve("data.json").writeText(deKotlin)
+    }
+
+    /** "Exportar" (y la copia que guarda el historial) produce el mismo JSON que ExportJson del C#. */
+    @org.junit.jupiter.api.Test
+    fun exportar_EsIgualAlDelEscritorio() {
+        val st = JsonConfig.json.decodeFromString(AppState.serializer(), recurso("respaldo_sintetico.json"))
+        val exportado = JsonDataStore(dir.path).exportJson(st)
+        assertMismoJson(recurso("respaldo_sintetico.exportado_por_escritorio.json"), exportado)
+    }
+
+    /** data_campos_escritorio trae campos solo del escritorio con valores no por defecto. */
+    @org.junit.jupiter.api.Test
+    fun camposDelEscritorio_SeConservan() {
+        val salida = cargarYGuardarConKotlin(recurso("data_campos_escritorio.json"), "d")
+        val (st, ui, hist) = JsonDataStore(File(dir, "d").path).load()
+        assertEquals("/home/usuario/Dropbox/respaldos nómina", ui.backupExtraDir)
+        assertEquals(true, ui.reduceAnimations)
+        assertEquals(true, ui.isSidebarCollapsed)
+        assertEquals("dark", ui.themeMode)
+        assertEquals("custom" to "calendar", ui.mode to ui.tab)
+        assertEquals("empresa_logo.png", st.cfg.logoCustomRelPath)
+        assertEquals(listOf(30.0, 15.5, 0.0, 10.0), st.emps[0].days.values.map { it.brk }) // "2,5" -> 0 como en C#
+        assertEquals(0.0, st.emps[0].salario)                                              // "2.100.000" -> 0 como en C#
+        assertEquals(2, hist.size)
+        assertMismoJson(recurso("data_campos_escritorio.guardado_por_escritorio.json"), salida)
     }
 
     // ---------- comparación de árboles JSON con la ruta exacta de la primera diferencia ----------

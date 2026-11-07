@@ -18,6 +18,20 @@ object HistorialCalc {
         }
     }
 
+    const val MaxEntradas = 25
+    const val VentanaFusionMs = 120_000L
+
+    /**
+     * MainViewModel.Snapshot del escritorio: si la última entrada tiene el mismo motivo y es de
+     * hace menos de 2 minutos se reemplaza (fusión); se inserta al inicio y se conservan 25.
+     */
+    fun Snapshot(history: MutableList<HistoryEntry>, reason: String, nowMs: Long, payload: String) {
+        val last = history.firstOrNull()
+        if (last != null && last.reason == reason && nowMs - last.ts < VentanaFusionMs) history.removeAt(0)
+        history.add(0, HistoryEntry(ts = nowMs, reason = reason, payload = payload))
+        while (history.size > MaxEntradas) history.removeAt(history.size - 1)
+    }
+
     fun EstadoInicial(): AppState {
         val st = AppState()
         for (i in 1..6) {

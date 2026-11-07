@@ -44,6 +44,11 @@ android {
         compose = true
     }
 
+    sourceSets {
+        // Los mismos data.json de prueba (sintéticos) que usa el motor y las referencias generadas con el C#.
+        getByName("test").resources.srcDir("../engine/src/test/resources")
+    }
+
     testOptions {
         unitTests.isIncludeAndroidResources = true
         unitTests.all {
@@ -68,11 +73,15 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.windowsizeclass)
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.lifecycle.process)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
+    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.roborazzi)
     testImplementation(libs.roborazzi.compose)
     testImplementation(libs.roborazzi.junit.rule)

@@ -1,0 +1,76 @@
+{
+  "state": {
+    "v": 2,
+    "cfg": {
+      "weeklyCap": 44,
+      "dailyRef": 8,
+      "dailyCapOn": true,
+      "nightStart": "21:00",
+      "nightEnd": "05:30",
+      "minuteRuleOn": false,
+      "minValid": 45,
+      "divisor": 220,
+      "rateRound": false,
+      "domOrdFull": true,
+      "domAutoOn": false,
+      "smmlv": 1800000,
+      "auxilio": 250000.5,
+      "saludPct": 4.5,
+      "pensionPct": 3.75,
+      "deductBase": "con_recargos",
+      "pct": { "noc": 36, "hed": 26, "hen": 76, "dom": 95 },
+      "turnos": ["06:00-14:00", "14:00-22:00", "22:00-06:00", "06:00-14:00"],
+      "razonSocial": "Empresa Ficticia de Prueba S.A.S.",
+      "nit": "900.000.000-1",
+      "logoCustomRelPath": "empresa_logo.png"
+    },
+    "festivos": ["2026-01-01", "2026-12-25", "2027-01-01"],
+    "emps": [
+      {
+        "id": "a1b2c3d",
+        "name": "Persona Ficticia Uno",
+        "cedula": "1000000001",
+        "cargo": "Supervisora",
+        "salario": "2.100.000",
+        "aux": false,
+        "restDay": 0,
+        "photoRelPath": "foto_a1b2c3d_1767225600000.jpg",
+        "days": {
+          "2026-10-12": { "in1": "06:00", "out1": "14:00", "in2": null, "out2": null, "brk": "30", "desc": true },
+          "2026-10-13": { "in1": "22:00", "out1": "06:00", "brk": 15.5 },
+          "2026-10-14": { "in1": "08:00", "out1": "12:00", "brk": "2,5" },
+          "2026-10-15": { "in1": "08:00", "out1": "12:00", "brk": " 1e1 " }
+        }
+      },
+      {
+        "id": "e5f6a7b",
+        "name": "Persona Ficticia Dos",
+        "cedula": "",
+        "cargo": "Operario",
+        "salario": 0,
+        "aux": true,
+        "restDay": null,
+        "photoRelPath": null,
+        "days": {}
+      }
+    ]
+  },
+  "ui": {
+    "tab": "calendar",
+    "month": "2026-10",
+    "mode": "custom",
+    "from": "2026-10-05",
+    "to": "2026-10-18",
+    "sel": "e5f6a7b",
+    "incl": true,
+    "search": "ficticia",
+    "themeMode": "dark",
+    "reduceAnimations": true,
+    "isSidebarCollapsed": true,
+    "backupExtraDir": "/home/usuario/Dropbox/respaldos nómina"
+  },
+  "history": [
+    { "ts": 1791000000000, "reason": "Edición de datos", "payload": "{\"v\":2,\"emps\":[]}" },
+    { "ts": 1790990000000, "reason": "Empleado añadido", "payload": "{\"v\":2}" }
+  ]
+}
