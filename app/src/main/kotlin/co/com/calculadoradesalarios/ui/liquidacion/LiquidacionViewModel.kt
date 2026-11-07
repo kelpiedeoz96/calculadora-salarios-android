@@ -15,7 +15,12 @@ import co.com.calculadoradesalarios.engine.Fmt
 import co.com.calculadoradesalarios.engine.JornadaHelper
 import co.com.calculadoradesalarios.engine.PeriodoCalc
 import co.com.calculadoradesalarios.engine.WeekGaugeData
+import co.com.calculadoradesalarios.engine.exportar.ArchivoExportado
+import co.com.calculadoradesalarios.engine.exportar.ExportadorNomina
+import co.com.calculadoradesalarios.exportar.FuentesLato
+import co.com.calculadoradesalarios.exportar.TipoExportacion
 import co.com.calculadoradesalarios.ui.comun.EntradaNumerica
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -98,7 +103,8 @@ class LiquidacionViewModel(
     private val repo: NominaRepository,
     private val guardado: SavedStateHandle,
     private val hoy: () -> LocalDate = LocalDate::now,
-    calculo: CoroutineDispatcher = Dispatchers.Default,
+    private val calculo: CoroutineDispatcher = Dispatchers.Default,
+    private val exportador: () -> ExportadorNomina = { FuentesLato.exportador() },
 ) : ViewModel() {
     private val erroresDia = MutableStateFlow<Map<CampoDia, String>>(emptyMap())
 
@@ -282,6 +288,20 @@ class LiquidacionViewModel(
         val (f, t) = PeriodoCalc.Periodo(d.ui, hoy())
         val nombre = seleccionado(d)?.name.orEmpty()
         return "¿Borrar horas de $nombre entre ${Fmt.DmyFull(f)} y ${Fmt.DmyFull(t)}?"
+    }
+
+    /** ExportPdf / ExportExcel del escritorio: el empleado seleccionado, en el periodo actual. */
+    suspend fun exportar(tipo: TipoExportacion): ArchivoExportado {
+        val d = repo.datos.value ?: error("Sin datos")
+        val emp = seleccionado(d) ?: throw IllegalStateException("No hay empleados para exportar.")
+        val (f, t) = PeriodoCalc.Periodo(d.ui, hoy())
+        val logo = repo.leerImagen(d.state.cfg.logoCustomRelPath)
+        return withContext(calculo) {
+            when (tipo) {
+                TipoExportacion.Pdf -> exportador().pdf(d.state, d.ui.incl, listOf(emp), f, t, hoy(), logo, ExportadorNomina.nombrePdfEmpleado(emp, f, t))
+                TipoExportacion.Excel -> exportador().excel(d.state, d.ui.incl, listOf(emp), f, t)
+            }
+        }
     }
 
     /** AddEmployee (en el escritorio el botón vive en Liquidación). */

@@ -13,7 +13,12 @@ import co.com.calculadoradesalarios.engine.Employee
 import co.com.calculadoradesalarios.engine.Engine
 import co.com.calculadoradesalarios.engine.Fmt
 import co.com.calculadoradesalarios.engine.PeriodoCalc
+import co.com.calculadoradesalarios.engine.exportar.ArchivoExportado
+import co.com.calculadoradesalarios.engine.exportar.ExportadorNomina
+import co.com.calculadoradesalarios.exportar.FuentesLato
+import co.com.calculadoradesalarios.exportar.TipoExportacion
 import co.com.calculadoradesalarios.ui.comun.EntradaNumerica
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -90,7 +95,8 @@ class EmpleadosViewModel(
     private val repo: NominaRepository,
     private val guardado: SavedStateHandle,
     private val hoy: () -> LocalDate = LocalDate::now,
-    calculo: CoroutineDispatcher = Dispatchers.Default,
+    private val calculo: CoroutineDispatcher = Dispatchers.Default,
+    private val exportador: () -> ExportadorNomina = { FuentesLato.exportador() },
 ) : ViewModel() {
     private data class Eliminado(val indice: Int, val emp: Employee)
     private val erroresFicha = kotlinx.coroutines.flow.MutableStateFlow<Map<CampoEmpleado, String>>(emptyMap())
@@ -162,6 +168,20 @@ class EmpleadosViewModel(
             iniciales = Fmt.Initials(e.name), tono = Fmt.HueOf(e.name), avisoSalario = aviso,
             placeholderSalario = "${Fmt.Money(smmlv.toLong()).removePrefix("$ ")} (salario mínimo)",
         )
+    }
+
+    /** ExportPdfAll / ExportExcelAll del escritorio: todos los empleados, en el periodo actual. */
+    suspend fun exportarTodos(tipo: TipoExportacion): ArchivoExportado {
+        val d = repo.datos.value ?: error("Sin datos")
+        if (d.state.emps.isEmpty()) throw IllegalStateException("No hay empleados para exportar.")
+        val (f, t) = PeriodoCalc.Periodo(d.ui, hoy())
+        val logo = repo.leerImagen(d.state.cfg.logoCustomRelPath)
+        return withContext(calculo) {
+            when (tipo) {
+                TipoExportacion.Pdf -> exportador().pdf(d.state, d.ui.incl, d.state.emps, f, t, hoy(), logo, ExportadorNomina.nombrePdfTodos(f, t))
+                TipoExportacion.Excel -> exportador().excel(d.state, d.ui.incl, d.state.emps, f, t)
+            }
+        }
     }
 
     fun buscar(texto: String) = repo.editarUi { it.search = texto }

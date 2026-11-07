@@ -57,6 +57,9 @@ import androidx.compose.ui.unit.dp
 import co.com.calculadoradesalarios.engine.Cat
 import co.com.calculadoradesalarios.engine.Engine
 import co.com.calculadoradesalarios.engine.WeekGaugeData
+import co.com.calculadoradesalarios.exportar.BotonesExportar
+import co.com.calculadoradesalarios.exportar.ModoExportacion
+import co.com.calculadoradesalarios.exportar.TipoExportacion
 import co.com.calculadoradesalarios.ui.comun.AvatarEmpleado
 import co.com.calculadoradesalarios.ui.comun.EstadoVacio
 import co.com.calculadoradesalarios.ui.comun.FilaInterruptor
@@ -70,6 +73,8 @@ class AccionesLiquidacion(
     val abrirDia: (String) -> Unit = {},
     val limpiarPeriodo: () -> Unit = {},
     val agregarEmpleado: () -> Unit = {},
+    val exportar: (TipoExportacion, ModoExportacion) -> Unit = { _, _ -> },
+    val exportando: TipoExportacion? = null,
 )
 
 @Composable
@@ -93,6 +98,7 @@ fun LiquidacionContenido(
     LazyColumn(modifier, contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         item { SelectorEmpleado(estado.chips, acciones.seleccionar) }
         item { Resumen(estado) }
+        item { BotonesExportar("PDF", "Excel", acciones.exportando, acciones.exportar) }
         if (estado.alertas.isNotEmpty()) item { Alertas(estado.alertas) }
         item { Semanas(estado) }
         item {

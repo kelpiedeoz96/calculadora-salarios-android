@@ -36,6 +36,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import co.com.calculadoradesalarios.engine.Cat
+import co.com.calculadoradesalarios.exportar.BotonesExportar
+import co.com.calculadoradesalarios.exportar.ModoExportacion
+import co.com.calculadoradesalarios.exportar.TipoExportacion
 import co.com.calculadoradesalarios.ui.comun.AvatarEmpleado
 import co.com.calculadoradesalarios.ui.comun.EstadoVacio
 import co.com.calculadoradesalarios.ui.comun.FilaDeslizable
@@ -48,6 +51,8 @@ class AccionesEmpleados(
     val abrir: (String) -> Unit = {},
     val agregar: () -> Unit = {},
     val eliminar: (String) -> Unit = {},
+    val exportar: (TipoExportacion, ModoExportacion) -> Unit = { _, _ -> },
+    val exportando: TipoExportacion? = null,
 )
 
 @Composable
@@ -76,6 +81,7 @@ fun EmpleadosContenido(estado: EmpleadosEstado, acciones: AccionesEmpleados, mod
             }
             item { FilaInterruptor("Incluir sueldo, auxilio y descuentos", estado.inclSueldo, acciones.inclSueldo) }
             item { TarjetaTotales(estado) }
+            item { BotonesExportar("PDF de todos", "Excel de todos", acciones.exportando, acciones.exportar) }
             if (estado.filas.isEmpty()) {
                 item { EstadoVacio(Icons.Outlined.SearchOff, "Sin coincidencias", "Prueba con otro nombre, cédula o cargo.") }
             }

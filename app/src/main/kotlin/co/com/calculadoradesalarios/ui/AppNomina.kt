@@ -39,6 +39,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import co.com.calculadoradesalarios.datos.NominaRepository
 import co.com.calculadoradesalarios.datos.TipoMensaje
 import co.com.calculadoradesalarios.engine.PeriodoCalc
+import co.com.calculadoradesalarios.exportar.recordarExportacion
 import co.com.calculadoradesalarios.ui.ajustes.AccionesAjustes
 import co.com.calculadoradesalarios.ui.ajustes.AjustesContenido
 import co.com.calculadoradesalarios.ui.ajustes.AjustesViewModel
@@ -127,7 +128,7 @@ fun AppNomina(repo: NominaRepository) {
                 ) { pestana, mod ->
                     when (pestana) {
                         Pestana.Empleados -> EmpleadosRuta(empleadosVm, snackbar, mod)
-                        Pestana.Liquidacion -> LiquidacionRuta(liquidacionVm, mod)
+                        Pestana.Liquidacion -> LiquidacionRuta(liquidacionVm, snackbar, mod)
                         Pestana.Ajustes -> AjustesRuta(ajustesVm, snackbar, mod)
                         Pestana.Panel -> {
                             val e by panelVm.estado.collectAsStateWithLifecycle()
@@ -176,8 +177,9 @@ private fun HistorialRuta(vm: HistorialViewModel, modifier: Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun LiquidacionRuta(vm: LiquidacionViewModel, modifier: Modifier) {
+private fun LiquidacionRuta(vm: LiquidacionViewModel, snackbar: SnackbarHostState, modifier: Modifier) {
     val estado by vm.estado.collectAsStateWithLifecycle()
+    val exportacion = recordarExportacion(snackbar, vm::exportar)
     LiquidacionContenido(
         estado,
         AccionesLiquidacion(
@@ -186,6 +188,8 @@ private fun LiquidacionRuta(vm: LiquidacionViewModel, modifier: Modifier) {
             abrirDia = vm::abrirDia,
             limpiarPeriodo = vm::limpiarPeriodo,
             agregarEmpleado = vm::agregarEmpleado,
+            exportar = exportacion.exportar,
+            exportando = exportacion.ocupado,
         ),
         textoConfirmarLimpiar = vm.textoConfirmarLimpiar(),
         modifier = modifier,
@@ -211,6 +215,7 @@ private fun EmpleadosRuta(vm: EmpleadosViewModel, snackbar: SnackbarHostState, m
     val estado by vm.estado.collectAsStateWithLifecycle()
     val alcance = rememberCoroutineScope()
     val resolver = LocalContext.current.contentResolver
+    val exportacion = recordarExportacion(snackbar, vm::exportarTodos)
 
     fun eliminarConDeshacer(id: String) {
         val nombre = vm.eliminar(id) ?: return
@@ -237,6 +242,8 @@ private fun EmpleadosRuta(vm: EmpleadosViewModel, snackbar: SnackbarHostState, m
             abrir = vm::abrirFicha,
             agregar = vm::agregar,
             eliminar = ::eliminarConDeshacer,
+            exportar = exportacion.exportar,
+            exportando = exportacion.ocupado,
         ),
         modifier,
     )

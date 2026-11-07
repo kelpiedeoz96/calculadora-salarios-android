@@ -31,6 +31,21 @@ descuentos de salud y pensión. Funciona sin internet; los datos se quedan en el
 - `app/`: interfaz (Compose, Material 3), almacenamiento y respaldos.
 - `referencia/` (no se versiona): código del escritorio en C# y especificación del motor.
 
-## Licencia
+## Exportación (PDF y Excel)
 
-MIT (ver `LICENSE`).
+- El PDF lo escribe el propio motor en Kotlin (`engine/.../exportar/`), sin librerías externas, con la
+  fuente Lato incrustada (subconjunto TrueType, Identity-H, anchos reales y ToUnicode). Es el mismo
+  comprobante del escritorio: hoja carta horizontal, una página o más por empleado.
+- El Excel (.xlsx) se arma a mano con `java.util.zip` y SpreadsheetML: hojas Resumen, Detalle diario y
+  Parámetros, iguales a las del escritorio.
+- Verificación contra el escritorio (opcional, en el computador):
+  - `herramientas/comparar_cifras_pdf.fish referencia.pdf generado.pdf`: compara todas las cifras del
+    texto de dos PDF (`pdftotext -layout`).
+  - `python -I herramientas/comparar_xlsx.py referencia.xlsx generado.xlsx`: compara hojas y celdas con
+    openpyxl.
+
+## Licencias
+
+- Código: MIT (ver `LICENSE`).
+- Fuente Lato (Łukasz Dziedzic): SIL Open Font License 1.1, en `engine/src/main/resources/fuentes/OFL.txt`.
+  Viaja dentro del APK junto con la fuente.
