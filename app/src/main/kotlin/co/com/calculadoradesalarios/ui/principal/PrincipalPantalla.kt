@@ -40,7 +40,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import co.com.calculadoradesalarios.ui.comun.EstadoVacio
 
 fun Pestana.icono(): ImageVector = when (this) {
     Pestana.Panel -> Icons.Outlined.Dashboard
@@ -154,13 +153,4 @@ private fun BarraSuperior(
             }
         },
     )
-}
-
-/** Pantallas que llegan en las entregas 3b y 3c. */
-@Composable
-fun EnConstruccion(p: Pestana, modifier: Modifier = Modifier) {
-    val entrega = if (p == Pestana.Liquidacion) "3b" else "3c"
-    Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        EstadoVacio(p.icono(), p.titulo, "Esta pantalla llega en la entrega $entrega.")
-    }
 }

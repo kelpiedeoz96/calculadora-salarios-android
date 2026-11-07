@@ -8,22 +8,15 @@ import co.com.calculadoradesalarios.datos.TipoMensaje
 import co.com.calculadoradesalarios.engine.AjustesCalc
 import co.com.calculadoradesalarios.engine.Config
 import co.com.calculadoradesalarios.engine.FestivosCalc
-import co.com.calculadoradesalarios.engine.HistorialCalc
-import co.com.calculadoradesalarios.engine.JsonConfig
-import co.com.calculadoradesalarios.engine.AppState
 import co.com.calculadoradesalarios.engine.RespaldoAutomatico
 import co.com.calculadoradesalarios.ui.comun.EntradaNumerica
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.InputStream
-import java.io.OutputStream
 import java.time.LocalDate
 
 enum class TipoCampo { Numero, Hora, Texto }
@@ -155,7 +148,6 @@ data class AjustesEstado(
 class AjustesViewModel(
     private val repo: NominaRepository,
     private val hoy: () -> LocalDate = LocalDate::now,
-    private val io: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
     private val errores = MutableStateFlow<Map<CampoAjuste, String>>(emptyMap())
 
@@ -284,7 +276,7 @@ class AjustesViewModel(
             repo.avisar("Logo restablecido.", TipoMensaje.Exito)
     }
 
-    // ---------- respaldos, importar y exportar ----------
+    // ---------- respaldos ----------
 
     fun respaldarAhora() = viewModelScope.launch {
         try {
@@ -320,37 +312,5 @@ class AjustesViewModel(
     fun quitarCarpetaExtra() = viewModelScope.launch {
         repo.fijarCarpetaExtra(null)
         repo.avisar("Carpeta extra quitada.", TipoMensaje.Info)
-    }
-
-    /** Escribe el estado (mismo formato que "Exportar" del escritorio) en [destino]. */
-    fun exportarDatos(destino: () -> OutputStream) = viewModelScope.launch {
-        try {
-            val json = repo.exportarJson()
-            withContext(io) { destino().use { it.write(json.toByteArray()) } }
-            repo.avisar("Datos exportados.", TipoMensaje.Exito)
-        } catch (e: Exception) {
-            repo.avisar("No se pudieron exportar los datos: ${e.message}", TipoMensaje.Error)
-        }
-    }
-
-    /** Importa un data.json o un estado exportado (del escritorio o del celular). */
-    fun importarDatos(abrir: () -> InputStream) = viewModelScope.launch {
-        try {
-            val texto = withContext(io) { abrir().use { it.readBytes().decodeToString() } }
-            repo.reemplazarEstado(LeerEstado(texto))
-            repo.avisar("Datos importados.", TipoMensaje.Exito)
-        } catch (e: Exception) {
-            repo.avisar("Ese archivo no tiene datos válidos de la app.", TipoMensaje.Error)
-        }
-    }
-
-    companion object {
-        /** Acepta el formato anidado de data.json ({"state":…}) y el plano del exportar. */
-        fun LeerEstado(texto: String): AppState {
-            val root = JsonConfig.json.parseToJsonElement(texto) as kotlinx.serialization.json.JsonObject
-            val nodo = root["state"] ?: root
-            require(nodo is kotlinx.serialization.json.JsonObject && ("emps" in nodo || "cfg" in nodo)) { "sin estado" }
-            return HistorialCalc.ParsePayload(nodo.toString()) ?: error("sin estado")
-        }
     }
 }

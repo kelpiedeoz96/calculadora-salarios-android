@@ -119,6 +119,18 @@ class NominaRepository(
         publicar(actual.copy(state = state, ui = ui))
     }
 
+    /**
+     * Snapshot(razon) + ReplaceState del escritorio: guarda en el historial una copia de lo que hay
+     * ahora y luego pone [nuevo] (restaurar una copia, cargar un respaldo, borrar todo).
+     */
+    fun reemplazarConCopia(razon: String, nuevo: AppState) {
+        val actual = _datos.value ?: return
+        val history = actual.history.toMutableList()
+        HistorialCalc.Snapshot(history, razon, relojMs(), exportarJson(actual.state))
+        _datos.value = actual.copy(history = history)
+        reemplazarEstado(nuevo)
+    }
+
     private fun publicar(d: DatosNomina) {
         _datos.value = d
         versionPedida++

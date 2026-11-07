@@ -82,6 +82,14 @@ object PeriodoCalc {
         return true
     }
 
+    /** ShowSingleDay del escritorio: el periodo pasa a ser solo ese día (rango personalizado). */
+    fun SoloDia(ui: UiState, fecha: LocalDate) {
+        val clave = Engine.Key(fecha)
+        ui.mode = "custom"
+        ui.from = clave
+        ui.to = clave
+    }
+
     /**
      * Aplica la selección del selector de periodo. Devuelve el mensaje de error del escritorio, o
      * null si se aplicó.

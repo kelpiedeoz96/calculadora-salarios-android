@@ -118,7 +118,7 @@ class CapturasTest {
     @Config(qualifiers = "w411dp-h4600dp-xxhdpi")
     fun ajustes() = runTest {
         val repo = repoFalso(almacenEjemplo())
-        val vm = AjustesViewModel(repo, { HoyPrueba }, UnconfinedTestDispatcher(testScheduler))
+        val vm = AjustesViewModel(repo, { HoyPrueba })
         vm.confirmar(CampoAjuste.Divisor, "0")   // para ver cómo se muestra un error
         vm.respaldarAhora()
         val principal = PrincipalEstado(cargando = false, pestana = Pestana.Ajustes)
@@ -147,7 +147,7 @@ class CapturasTest {
     @Config(qualifiers = Tableta)
     fun tabletaAjustes() = runTest {
         val repo = repoFalso(almacenEjemplo())
-        val vm = AjustesViewModel(repo, { HoyPrueba }, UnconfinedTestDispatcher(testScheduler))
+        val vm = AjustesViewModel(repo, { HoyPrueba })
         capturar("08_tableta_ajustes") {
             PrincipalContenido(PrincipalEstado(cargando = false, pestana = Pestana.Ajustes), {}, {}, {}, {}, SnackbarHostState()) { _, mod ->
                 AjustesContenido(vm.estado.value, AccionesAjustes(), "2027", mod)

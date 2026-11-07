@@ -22,7 +22,7 @@ class AjustesViewModelTest {
     @get:Rule val main = ReglaMain()
 
     private suspend fun kotlinx.coroutines.test.TestScope.crear(almacen: AlmacenFalso = AlmacenFalso()) =
-        repoFalso(almacen).let { it to AjustesViewModel(it, { HoyPrueba }, UnconfinedTestDispatcher(testScheduler)) }
+        repoFalso(almacen).let { it to AjustesViewModel(it, { HoyPrueba }) }
 
     @Test
     fun valores_SeMuestranComoEnElEscritorio() = runTest {
@@ -135,20 +135,4 @@ class AjustesViewModelTest {
         vm.quitarCarpetaExtra()
         assertNull(vm.estado.value.carpetaExtra)
     }
-
-    @Test
-    fun exportarEImportar_DatosDelEscritorio() = runTest {
-        val (repo, vm) = crear()
-        val salida = ByteArrayOutputStream()
-        vm.exportarDatos { salida }
-        val exportado = salida.toString(Charsets.UTF_8.name())
-        assertEquals(repo.datos.value!!.state.emps[0].id, JsonConfig.json.decodeFromString(co.com.calculadoradesalarios.engine.AppState.serializer(), exportado).emps[0].id)
-
-        val dataEscritorio = javaClass.classLoader!!.getResource("TestData/respaldo_sintetico.json")!!.readText()
-        vm.importarDatos { ByteArrayInputStream(dataEscritorio.toByteArray()) }
-        assertEquals(6, repo.datos.value!!.state.emps.size)
-        vm.importarDatos { ByteArrayInputStream("{\"no\":\"es\"}".toByteArray()) }
-        assertEquals("un archivo sin estado no reemplaza nada", 6, repo.datos.value!!.state.emps.size)
-    }
 }
-

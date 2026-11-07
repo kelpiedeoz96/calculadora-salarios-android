@@ -20,8 +20,6 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.Backup
-import androidx.compose.material.icons.outlined.FileDownload
-import androidx.compose.material.icons.outlined.FileUpload
 import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.Restore
@@ -29,7 +27,6 @@ import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -82,8 +79,6 @@ class AccionesAjustes(
     val restaurar: () -> Unit = {},
     val elegirCarpetaExtra: () -> Unit = {},
     val quitarCarpetaExtra: () -> Unit = {},
-    val exportar: () -> Unit = {},
-    val importar: () -> Unit = {},
 )
 
 private val Grupos = listOf(
@@ -310,12 +305,8 @@ private fun SeccionRespaldos(estado: AjustesEstado, acciones: AccionesAjustes) =
         OutlinedButton(onClick = acciones.elegirCarpetaExtra) { BotonIcono(Icons.Outlined.FolderOpen, "Elegir carpeta extra…") }
         if (estado.carpetaExtra != null) TextButton(onClick = acciones.quitarCarpetaExtra) { Text("Quitar carpeta extra") }
     }
-    HorizontalDivider()
-    Text("Intercambio con el escritorio", style = MaterialTheme.typography.labelLarge)
-    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        OutlinedButton(onClick = acciones.exportar) { BotonIcono(Icons.Outlined.FileUpload, "Exportar datos…") }
-        OutlinedButton(onClick = acciones.importar) { BotonIcono(Icons.Outlined.FileDownload, "Importar datos…") }
-    }
+    Text("Para pasar los datos al escritorio o traerlos de allí, usa Historial → Descargar o Cargar respaldo.",
+        style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
 
     if (confirmarRestaurar) {
         AlertDialog(

@@ -43,7 +43,7 @@ class EntradaNumericaTest {
     @Test
     fun ajustes_AceptaComaDecimal() = runTest {
         val repo = repoFalso()
-        val vm = AjustesViewModel(repo, { HoyPrueba }, UnconfinedTestDispatcher(testScheduler))
+        val vm = AjustesViewModel(repo, { HoyPrueba })
         vm.confirmar(CampoAjuste.SaludPct, "4,5")
         assertNull(vm.estado.value.errores[CampoAjuste.SaludPct])
         assertEquals(4.5, repo.datos.value!!.state.cfg.saludPct, 0.0)

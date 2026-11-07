@@ -53,7 +53,15 @@ import co.com.calculadoradesalarios.ui.liquidacion.AccionesLiquidacion
 import co.com.calculadoradesalarios.ui.liquidacion.EditorDiaContenido
 import co.com.calculadoradesalarios.ui.liquidacion.LiquidacionContenido
 import co.com.calculadoradesalarios.ui.liquidacion.LiquidacionViewModel
-import co.com.calculadoradesalarios.ui.principal.EnConstruccion
+import co.com.calculadoradesalarios.ui.calendario.AccionesCalendario
+import co.com.calculadoradesalarios.ui.calendario.CalendarioContenido
+import co.com.calculadoradesalarios.ui.calendario.CalendarioViewModel
+import co.com.calculadoradesalarios.ui.historial.AccionesHistorial
+import co.com.calculadoradesalarios.ui.historial.HistorialContenido
+import co.com.calculadoradesalarios.ui.historial.HistorialViewModel
+import co.com.calculadoradesalarios.ui.panel.AccionesPanel
+import co.com.calculadoradesalarios.ui.panel.PanelContenido
+import co.com.calculadoradesalarios.ui.panel.PanelViewModel
 import co.com.calculadoradesalarios.ui.principal.Pestana
 import co.com.calculadoradesalarios.ui.principal.PrincipalContenido
 import co.com.calculadoradesalarios.ui.principal.PrincipalViewModel
@@ -78,12 +86,18 @@ fun AppNomina(repo: NominaRepository) {
             initializer { AjustesViewModel(repo) }
             initializer { EmpleadosViewModel(repo, createSavedStateHandle()) }
             initializer { LiquidacionViewModel(repo, createSavedStateHandle()) }
+            initializer { PanelViewModel(repo) }
+            initializer { CalendarioViewModel(repo) }
+            initializer { HistorialViewModel(repo) }
         }
     }
     val principalVm: PrincipalViewModel = viewModel(factory = fabrica)
     val ajustesVm: AjustesViewModel = viewModel(factory = fabrica)
     val empleadosVm: EmpleadosViewModel = viewModel(factory = fabrica)
     val liquidacionVm: LiquidacionViewModel = viewModel(factory = fabrica)
+    val panelVm: PanelViewModel = viewModel(factory = fabrica)
+    val calendarioVm: CalendarioViewModel = viewModel(factory = fabrica)
+    val historialVm: HistorialViewModel = viewModel(factory = fabrica)
 
     val principal by principalVm.estado.collectAsStateWithLifecycle()
     val snackbar = remember { SnackbarHostState() }
@@ -115,7 +129,15 @@ fun AppNomina(repo: NominaRepository) {
                         Pestana.Empleados -> EmpleadosRuta(empleadosVm, snackbar, mod)
                         Pestana.Liquidacion -> LiquidacionRuta(liquidacionVm, mod)
                         Pestana.Ajustes -> AjustesRuta(ajustesVm, snackbar, mod)
-                        else -> EnConstruccion(pestana, mod)
+                        Pestana.Panel -> {
+                            val e by panelVm.estado.collectAsStateWithLifecycle()
+                            PanelContenido(e, AccionesPanel(abrirEmpleado = panelVm::abrirEmpleado, irAEmpleados = panelVm::irAEmpleados), mod)
+                        }
+                        Pestana.Calendario -> {
+                            val e by calendarioVm.estado.collectAsStateWithLifecycle()
+                            CalendarioContenido(e, AccionesCalendario(seleccionar = calendarioVm::seleccionar, verDia = calendarioVm::verDia), mod)
+                        }
+                        Pestana.Historial -> HistorialRuta(historialVm, mod)
                     }
                 }
                 if (periodoAbierto) {
@@ -128,6 +150,28 @@ fun AppNomina(repo: NominaRepository) {
             }
         }
     }
+}
+
+@Composable
+private fun HistorialRuta(vm: HistorialViewModel, modifier: Modifier) {
+    val estado by vm.estado.collectAsStateWithLifecycle()
+    val resolver = LocalContext.current.contentResolver
+    val descargar = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
+        if (uri != null) vm.descargarRespaldo { resolver.openOutputStream(uri)!! }
+    }
+    val cargar = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) vm.cargarRespaldo { resolver.openInputStream(uri)!! }
+    }
+    HistorialContenido(
+        estado,
+        AccionesHistorial(
+            restaurar = vm::restaurar,
+            descargar = { descargar.launch("respaldo_nomina_${LocalDate.now()}.json") },
+            cargar = { cargar.launch(arrayOf("application/json", "text/plain", "application/octet-stream")) },
+            borrarTodo = vm::borrarTodo,
+        ),
+        modifier,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -240,12 +284,6 @@ private fun AjustesRuta(vm: AjustesViewModel, snackbar: SnackbarHostState, modif
     val carpeta = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
         if (uri != null) vm.elegirCarpetaExtra(uri.toString())
     }
-    val exportar = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
-        if (uri != null) vm.exportarDatos { resolver.openOutputStream(uri)!! }
-    }
-    val importar = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        if (uri != null) vm.importarDatos { resolver.openInputStream(uri)!! }
-    }
 
     AjustesContenido(
         estado,
@@ -268,8 +306,6 @@ private fun AjustesRuta(vm: AjustesViewModel, snackbar: SnackbarHostState, modif
             restaurar = { restaurar.launch(arrayOf("application/zip", "application/x-zip-compressed", "application/octet-stream")) },
             elegirCarpetaExtra = { carpeta.launch(null) },
             quitarCarpetaExtra = { vm.quitarCarpetaExtra() },
-            exportar = { exportar.launch("nomina_datos_${LocalDate.now()}.json") },
-            importar = { importar.launch(arrayOf("application/json", "text/plain", "application/octet-stream")) },
         ),
         anioSugerido = vm.anioSugerido(),
         modifier = modifier,

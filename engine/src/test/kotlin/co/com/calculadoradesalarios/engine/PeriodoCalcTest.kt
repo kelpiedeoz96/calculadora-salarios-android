@@ -60,6 +60,14 @@ class PeriodoCalcTest {
     }
 
     @Test
+    fun soloDia_DejaUnRangoDeUnDia() {
+        val ui = UiState(month = "2026-10", mode = "q2")
+        PeriodoCalc.SoloDia(ui, d("2026-10-12"))
+        assertEquals(d("2026-10-12") to d("2026-10-12"), PeriodoCalc.Periodo(ui, hoy))
+        assertEquals("2026-10", ui.month)
+    }
+
+    @Test
     fun aplicar_ValidaComoElEscritorio() {
         val ui = UiState(month = "2026-10", mode = "q1")
         assertEquals("El mes debe ser AAAA-MM, por ejemplo 2026-10.", PeriodoCalc.Aplicar(ui, "10-2026", "q1", "", ""))
