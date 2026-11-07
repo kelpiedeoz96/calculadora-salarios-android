@@ -1,0 +1,146 @@
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:CalculadoraDeSalarios.App.Controls"
+             xmlns:vm="clr-namespace:CalculadoraDeSalarios.App.ViewModels.Empleados"
+             x:Class="CalculadoraDeSalarios.App.Views.EmpleadosView"
+             x:DataType="vm:EmpleadosViewModel">
+
+    <ScrollViewer Padding="28,20,28,40">
+        <StackPanel Spacing="16">
+            <!-- 1. BARRA SUPERIOR DE BÚSQUEDA Y OPCIÓN DE SUELDO -->
+            <Border Classes="card d1" Padding="14,10">
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <controls:Icon Data="{DynamicResource IconSearch}" Size="16" Foreground="{DynamicResource Text3Brush}" />
+                        <TextBlock Text="Buscar" Classes="caption" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <TextBox Grid.Column="1"
+                             Text="{Binding SearchText}"
+                             PlaceholderText="Buscar por nombre, cédula o cargo…"
+                             VerticalAlignment="Center" />
+                    <CheckBox Grid.Column="2"
+                              Content="Incluir sueldo, auxilio y descuentos"
+                              IsChecked="{Binding IsInclSueldo}"
+                              Click="OnInclCheckBoxClick"
+                              VerticalAlignment="Center" />
+                </Grid>
+            </Border>
+            <!-- 2. TABLA PRINCIPAL DE EMPLEADOS -->
+            <Border Classes="card d2">
+                <StackPanel Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Text="Todos los empleados" Classes="h2" />
+                        <TextBlock Grid.Column="1" Text="{Binding PeriodLabel}" Classes="caption" />
+                    </Grid>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                        <StackPanel Spacing="2" Classes="emptable" Classes.incl="{Binding IsInclSueldo}">
+                            <!-- Cabecera de la tabla -->
+                            <Border Padding="0,0,0,6" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}">
+                                <Grid ColumnDefinitions="*,70,84,84,70,104,Auto,Auto,Auto,Auto" ColumnSpacing="8">
+                                    <TextBlock Text="EMPLEADO" Classes="caption" FontWeight="SemiBold" />
+                                    <TextBlock Grid.Column="1" Text="HORAS" Classes="caption" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Column="2" Text="NOCTURNAS" Classes="caption" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Column="3" Text="DOM/FEST" Classes="caption" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Column="4" Text="EXTRA" Classes="caption" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Column="5" Text="RECARGOS" Classes="caption" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    <!-- Columnas de sueldo quincenal plegables -->
+                                    <Border Grid.Column="6" Width="104" IsVisible="{Binding IsInclSueldo}">
+                                        <TextBlock Text="BÁSICO" Classes="caption" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    </Border>
+                                    <Border Grid.Column="7" Width="94" IsVisible="{Binding IsInclSueldo}">
+                                        <TextBlock Text="AUXILIO" Classes="caption" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    </Border>
+                                    <Border Grid.Column="8" Width="104" IsVisible="{Binding IsInclSueldo}">
+                                        <TextBlock Text="DESC." Classes="caption" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    </Border>
+                                    <Border Grid.Column="9" Width="104" IsVisible="{Binding IsInclSueldo}">
+                                        <TextBlock Text="NETO" Classes="caption" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+                            <!-- Filas de empleados -->
+                            <ItemsControl ItemsSource="{Binding FilteredRows}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:EmpleadoRowViewModel">
+                                        <Border Padding="0,6" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}">
+                                            <Grid ColumnDefinitions="*,70,84,84,70,104,Auto,Auto,Auto,Auto" ColumnSpacing="8" VerticalAlignment="Center">
+                                                <!-- Empleado con avatar e iniciales -->
+                                                <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                                    <controls:EmpleadoAvatar Width="24" Height="24" CornerRadius="6" InitialsFontSize="10"
+                                                  Initials="{Binding Initials}" Fill="{Binding AvatarBrush}" PhotoRelPath="{Binding PhotoRelPath}" />
+                                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                                </StackPanel>
+                                                <!-- Conceptos de horas -->
+                                                <TextBlock Grid.Column="1" Text="{Binding TotalHoras}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="2" Text="{Binding Nocturnas}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="3" Text="{Binding DomFest}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="4" Text="{Binding Extra}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                <TextBlock Grid.Column="5" Text="{Binding Recargos}" FontWeight="SemiBold" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                <!-- Celdas de sueldo condicionales -->
+                                                <Border Grid.Column="6" Width="104" IsVisible="{Binding $parent[UserControl].((vm:EmpleadosViewModel)DataContext).IsInclSueldo}">
+                                                    <TextBlock Text="{Binding Basico}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                </Border>
+                                                <Border Grid.Column="7" Width="94" IsVisible="{Binding $parent[UserControl].((vm:EmpleadosViewModel)DataContext).IsInclSueldo}">
+                                                    <TextBlock Text="{Binding Auxilio}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                </Border>
+                                                <Border Grid.Column="8" Width="104" IsVisible="{Binding $parent[UserControl].((vm:EmpleadosViewModel)DataContext).IsInclSueldo}">
+                                                    <TextBlock Text="{Binding Descuentos}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                </Border>
+                                                <Border Grid.Column="9" Width="104" IsVisible="{Binding $parent[UserControl].((vm:EmpleadosViewModel)DataContext).IsInclSueldo}">
+                                                    <TextBlock Text="{Binding Neto}" FontWeight="SemiBold" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <!-- Estado sin coincidencias -->
+                            <Border Padding="0,16" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}" IsVisible="{Binding HasNoMatches}">
+                                <TextBlock Text="Sin coincidencias" Foreground="{DynamicResource Text3Brush}" />
+                            </Border>
+                            <!-- Fila final Total -->
+                            <Border Padding="0,8,0,0" Margin="0,4,0,0" BorderThickness="0,2,0,0" BorderBrush="{DynamicResource BorderBrush}">
+                                <Grid ColumnDefinitions="*,70,84,84,70,104,Auto,Auto,Auto,Auto" ColumnSpacing="8" VerticalAlignment="Center">
+                                    <TextBlock Text="Total" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="{Binding TotHoras}" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Column="2" Text="{Binding TotNocturnas}" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Column="3" Text="{Binding TotDomFest}" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Column="4" Text="{Binding TotExtra}" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Column="5" Text="{Binding TotRecargos}" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    <Border Grid.Column="6" Width="104" IsVisible="{Binding IsInclSueldo}">
+                                        <TextBlock Text="{Binding TotBasico}" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    </Border>
+                                    <Border Grid.Column="7" Width="94" IsVisible="{Binding IsInclSueldo}">
+                                        <TextBlock Text="{Binding TotAuxilio}" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    </Border>
+                                    <Border Grid.Column="8" Width="104" IsVisible="{Binding IsInclSueldo}">
+                                        <TextBlock Text="{Binding TotDescuentos}" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    </Border>
+                                    <Border Grid.Column="9" Width="104" IsVisible="{Binding IsInclSueldo}">
+                                        <TextBlock Text="{Binding TotNeto}" FontWeight="SemiBold" HorizontalAlignment="Right" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <!-- 3. BOTONES DE EXPORTACIÓN MASIVA -->
+                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,10,0,0">
+                        <Button Command="{Binding ExportExcelAllCommand}" Classes="primary">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <controls:Icon Data="{DynamicResource IconFileXls}" Size="16" Foreground="{DynamicResource OnPrimaryBrush}" />
+                                <TextBlock Text="Excel de todos" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding ExportPdfAllCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <controls:Icon Data="{DynamicResource IconFilePdf}" Size="16" Foreground="{DynamicResource TextBrush}" />
+                                <TextBlock Text="PDF de todos" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

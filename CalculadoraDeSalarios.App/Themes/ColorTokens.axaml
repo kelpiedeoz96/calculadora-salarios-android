@@ -1,0 +1,231 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+            <Color x:Key="SystemAccentColor">#56C1C8</Color>
+            <Color x:Key="SystemAccentColorLight1">#76CED4</Color>
+            <Color x:Key="SystemAccentColorLight2">#96DBE0</Color>
+            <Color x:Key="SystemAccentColorLight3">#B6E8EC</Color>
+            <Color x:Key="SystemAccentColorDark1">#42A8AF</Color>
+            <Color x:Key="SystemAccentColorDark2">#2F8F96</Color>
+            <Color x:Key="SystemAccentColorDark3">#1D757C</Color>
+            <SolidColorBrush x:Key="ButtonBackground" Color="#1C2E33" />
+            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#253D44" />
+            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#162529" />
+            <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#101A1D" />
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#2A454B" />
+            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#3D636B" />
+            <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#56C1C8" />
+            <SolidColorBrush x:Key="ButtonForeground" Color="#EAF2F1" />
+            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="TextControlBackground" Color="#101B1E" />
+            <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#142327" />
+            <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#101B1E" />
+            <SolidColorBrush x:Key="TextControlBorderBrush" Color="#273E43" />
+            <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#3B5D64" />
+            <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#56C1C8" />
+            <SolidColorBrush x:Key="TextControlForeground" Color="#EAF2F1" />
+            <SolidColorBrush x:Key="ComboBoxBackground" Color="#101B1E" />
+            <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="#142327" />
+            <SolidColorBrush x:Key="ComboBoxBackgroundPressed" Color="#17282D" />
+            <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="#273E43" />
+            <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver" Color="#3B5D64" />
+            <SolidColorBrush x:Key="ComboBoxForeground" Color="#EAF2F1" />
+            <SolidColorBrush x:Key="FlyoutPresenterBackground" Color="#132024" />
+            <SolidColorBrush x:Key="FlyoutPresenterBorderBrush" Color="#2C484F" />
+            <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#132024" />
+            <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#2C484F" />
+            <SolidColorBrush x:Key="ToolTipBackground" Color="#17272B" />
+            <SolidColorBrush x:Key="ToolTipForeground" Color="#EAF2F1" />
+            <SolidColorBrush x:Key="ToolTipBorderBrush" Color="#2C484F" />
+            <SolidColorBrush x:Key="MenuFlyoutPresenterBackground" Color="#132024" />
+            <SolidColorBrush x:Key="MenuFlyoutPresenterBorderBrush" Color="#2C484F" />
+            <SolidColorBrush x:Key="BgBrush" Color="#091214" />
+            <SolidColorBrush x:Key="Bg2Brush" Color="#060C0E" />
+            <SolidColorBrush x:Key="SurfaceBrush" Color="#122024" />
+            <SolidColorBrush x:Key="Surface2Brush" Color="#17282D" />
+            <SolidColorBrush x:Key="Surface3Brush" Color="#1E3339" />
+            <SolidColorBrush x:Key="SurfaceHoverBrush" Color="#233C43" />
+            <SolidColorBrush x:Key="BorderBrush" Color="#263E44" />
+            <SolidColorBrush x:Key="BorderStrongBrush" Color="#3C5E66" />
+            <SolidColorBrush x:Key="TextBrush" Color="#EAF2F1" />
+            <SolidColorBrush x:Key="Text2Brush" Color="#9AB1AF" />
+            <SolidColorBrush x:Key="Text3Brush" Color="#668082" />
+            <SolidColorBrush x:Key="PrimaryBrush" Color="#56C1C8" />
+            <SolidColorBrush x:Key="PrimaryHiBrush" Color="#6DD5DC" />
+            <SolidColorBrush x:Key="PrimaryLoBrush" Color="#3FA5AC" />
+            <SolidColorBrush x:Key="PrimarySoftBrush" Color="#1A3439" />
+            <SolidColorBrush x:Key="OnPrimaryBrush" Color="#061618" />
+            <SolidColorBrush x:Key="AccentBrush" Color="#F5A623" />
+            <SolidColorBrush x:Key="AccentSoftBrush" Color="#2F2314" />
+            <SolidColorBrush x:Key="DomBrush" Color="#F06292" />
+            <SolidColorBrush x:Key="DomSoftBrush" Color="#321A25" />
+            <SolidColorBrush x:Key="NightBrush" Color="#9FA8DA" />
+            <SolidColorBrush x:Key="NightSoftBrush" Color="#201C33" />
+            <SolidColorBrush x:Key="ExtDomBrush" Color="#FF8A65" />
+            <SolidColorBrush x:Key="ExtDomSoftBrush" Color="#331D18" />
+            <SolidColorBrush x:Key="OkBrush" Color="#66BB6A" />
+            <SolidColorBrush x:Key="OkSoftBrush" Color="#16291B" />
+            <SolidColorBrush x:Key="WarnBrush" Color="#FFA726" />
+            <SolidColorBrush x:Key="WarnSoftBrush" Color="#302114" />
+            <SolidColorBrush x:Key="DangerBrush" Color="#EF5350" />
+            <SolidColorBrush x:Key="DangerSoftBrush" Color="#311718" />
+            <SolidColorBrush x:Key="CatODiuBgBrush" Color="#1A353A" />
+            <SolidColorBrush x:Key="CatODiuFgBrush" Color="#84DFE5" />
+            <SolidColorBrush x:Key="CatONocBgBrush" Color="#251E38" />
+            <SolidColorBrush x:Key="CatONocFgBrush" Color="#B39DDB" />
+            <SolidColorBrush x:Key="CatODomBgBrush" Color="#361D29" />
+            <SolidColorBrush x:Key="CatODomFgBrush" Color="#F48FB1" />
+            <SolidColorBrush x:Key="CatONocDomBgBrush" Color="#371E36" />
+            <SolidColorBrush x:Key="CatONocDomFgBrush" Color="#CE93D8" />
+            <SolidColorBrush x:Key="CatHEDBgBrush" Color="#352413" />
+            <SolidColorBrush x:Key="CatHEDFgBrush" Color="#FFCC80" />
+            <SolidColorBrush x:Key="CatHENBgBrush" Color="#361E1A" />
+            <SolidColorBrush x:Key="CatHENFgBrush" Color="#FFAB91" />
+            <SolidColorBrush x:Key="CatHEDDomBgBrush" Color="#38181B" />
+            <SolidColorBrush x:Key="CatHEDDomFgBrush" Color="#EF9A9A" />
+            <SolidColorBrush x:Key="CatHENDomBgBrush" Color="#35162B" />
+            <SolidColorBrush x:Key="CatHENDomFgBrush" Color="#F48FB1" />
+            <SolidColorBrush x:Key="GlassBrush" Color="#B8122126" />
+            <SolidColorBrush x:Key="GlassStrongBrush" Color="#E00F1C21" />
+            <SolidColorBrush x:Key="GlassHoverBrush" Color="#CC172A30" />
+            <SolidColorBrush x:Key="PrimaryGlowBrush" Color="#4056C1C8" />
+            <SolidColorBrush x:Key="FocusRingBrush" Color="#8056C1C8" />
+            <SolidColorBrush x:Key="PopupBackgroundBrush" Color="#132024" />
+            <SolidColorBrush x:Key="PopupBorderBrush" Color="#2C484F" />
+            <SolidColorBrush x:Key="ScrimBrush" Color="#B3000000" />
+            <LinearGradientBrush x:Key="AppBackdropBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Offset="0.0" Color="#071012" />
+                <GradientStop Offset="0.5" Color="#0A181C" />
+                <GradientStop Offset="1.0" Color="#0B2026" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="GlassBorderBrush" StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Offset="0.0" Color="#5956C1C8" />
+                <GradientStop Offset="0.35" Color="#294047" />
+                <GradientStop Offset="1.0" Color="#17FFFFFF" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="GlassBorderStrongBrush" StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Offset="0.0" Color="#B356C1C8" />
+                <GradientStop Offset="1.0" Color="#4D56C1C8" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="PrimaryGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Offset="0.0" Color="#66D7DE" />
+                <GradientStop Offset="1.0" Color="#42A9B0" />
+            </LinearGradientBrush>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+            <Color x:Key="SystemAccentColor">#0E5A61</Color>
+            <Color x:Key="SystemAccentColorLight1">#15727B</Color>
+            <Color x:Key="SystemAccentColorLight2">#1E8D97</Color>
+            <Color x:Key="SystemAccentColorLight3">#2DAAB5</Color>
+            <Color x:Key="SystemAccentColorDark1">#0A464C</Color>
+            <Color x:Key="SystemAccentColorDark2">#073539</Color>
+            <Color x:Key="SystemAccentColorDark3">#042326</Color>
+            <SolidColorBrush x:Key="ButtonBackground" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#F2F7F7" />
+            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#E5EEEE" />
+            <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#F5F8F8" />
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#D1DFDD" />
+            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#B2C9C6" />
+            <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#0E5A61" />
+            <SolidColorBrush x:Key="ButtonForeground" Color="#0E1E20" />
+            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#0E1E20" />
+            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#0E1E20" />
+            <SolidColorBrush x:Key="TextControlBackground" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#F7FAFA" />
+            <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="TextControlBorderBrush" Color="#CFDEDC" />
+            <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#AFC5C2" />
+            <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="#0E5A61" />
+            <SolidColorBrush x:Key="TextControlForeground" Color="#0E1E20" />
+            <SolidColorBrush x:Key="ComboBoxBackground" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="#F7FAFA" />
+            <SolidColorBrush x:Key="ComboBoxBackgroundPressed" Color="#EBF2F2" />
+            <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="#CFDEDC" />
+            <SolidColorBrush x:Key="ComboBoxBorderBrushPointerOver" Color="#AFC5C2" />
+            <SolidColorBrush x:Key="ComboBoxForeground" Color="#0E1E20" />
+            <SolidColorBrush x:Key="FlyoutPresenterBackground" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="FlyoutPresenterBorderBrush" Color="#CAD9D7" />
+            <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="ComboBoxDropDownBorderBrush" Color="#CAD9D7" />
+            <SolidColorBrush x:Key="ToolTipBackground" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="ToolTipForeground" Color="#0E1E20" />
+            <SolidColorBrush x:Key="ToolTipBorderBrush" Color="#CAD9D7" />
+            <SolidColorBrush x:Key="MenuFlyoutPresenterBackground" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="MenuFlyoutPresenterBorderBrush" Color="#CAD9D7" />
+            <SolidColorBrush x:Key="BgBrush" Color="#ECF3F3" />
+            <SolidColorBrush x:Key="Bg2Brush" Color="#E2EDED" />
+            <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="Surface2Brush" Color="#F5F9F9" />
+            <SolidColorBrush x:Key="Surface3Brush" Color="#E8F1F1" />
+            <SolidColorBrush x:Key="SurfaceHoverBrush" Color="#E1ECEC" />
+            <SolidColorBrush x:Key="BorderBrush" Color="#D2DFDD" />
+            <SolidColorBrush x:Key="BorderStrongBrush" Color="#B0C5C3" />
+            <SolidColorBrush x:Key="TextBrush" Color="#0E1E20" />
+            <SolidColorBrush x:Key="Text2Brush" Color="#4A6163" />
+            <SolidColorBrush x:Key="Text3Brush" Color="#769194" />
+            <SolidColorBrush x:Key="PrimaryBrush" Color="#0E5A61" />
+            <SolidColorBrush x:Key="PrimaryHiBrush" Color="#146F77" />
+            <SolidColorBrush x:Key="PrimaryLoBrush" Color="#094449" />
+            <SolidColorBrush x:Key="PrimarySoftBrush" Color="#E1F1F2" />
+            <SolidColorBrush x:Key="OnPrimaryBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="AccentBrush" Color="#B36B00" />
+            <SolidColorBrush x:Key="AccentSoftBrush" Color="#FFF3E0" />
+            <SolidColorBrush x:Key="DomBrush" Color="#AD1457" />
+            <SolidColorBrush x:Key="DomSoftBrush" Color="#FCE4EC" />
+            <SolidColorBrush x:Key="NightBrush" Color="#4527A0" />
+            <SolidColorBrush x:Key="NightSoftBrush" Color="#EDE7F6" />
+            <SolidColorBrush x:Key="ExtDomBrush" Color="#C4380D" />
+            <SolidColorBrush x:Key="ExtDomSoftBrush" Color="#FBE9E7" />
+            <SolidColorBrush x:Key="OkBrush" Color="#2E7D32" />
+            <SolidColorBrush x:Key="OkSoftBrush" Color="#E8F5E9" />
+            <SolidColorBrush x:Key="WarnBrush" Color="#C44D00" />
+            <SolidColorBrush x:Key="WarnSoftBrush" Color="#FFF3E0" />
+            <SolidColorBrush x:Key="DangerBrush" Color="#C62828" />
+            <SolidColorBrush x:Key="DangerSoftBrush" Color="#FFEBEE" />
+            <SolidColorBrush x:Key="CatODiuBgBrush" Color="#E0F2F1" />
+            <SolidColorBrush x:Key="CatODiuFgBrush" Color="#00695C" />
+            <SolidColorBrush x:Key="CatONocBgBrush" Color="#EDE7F6" />
+            <SolidColorBrush x:Key="CatONocFgBrush" Color="#4527A0" />
+            <SolidColorBrush x:Key="CatODomBgBrush" Color="#FCE4EC" />
+            <SolidColorBrush x:Key="CatODomFgBrush" Color="#AD1457" />
+            <SolidColorBrush x:Key="CatONocDomBgBrush" Color="#F3E5F5" />
+            <SolidColorBrush x:Key="CatONocDomFgBrush" Color="#6A1B9A" />
+            <SolidColorBrush x:Key="CatHEDBgBrush" Color="#FFF3E0" />
+            <SolidColorBrush x:Key="CatHEDFgBrush" Color="#BF360C" />
+            <SolidColorBrush x:Key="CatHENBgBrush" Color="#FBE9E7" />
+            <SolidColorBrush x:Key="CatHENFgBrush" Color="#D84315" />
+            <SolidColorBrush x:Key="CatHEDDomBgBrush" Color="#FFEBEE" />
+            <SolidColorBrush x:Key="CatHEDDomFgBrush" Color="#B71C1C" />
+            <SolidColorBrush x:Key="CatHENDomBgBrush" Color="#FCE4EC" />
+            <SolidColorBrush x:Key="CatHENDomFgBrush" Color="#880E4F" />
+            <SolidColorBrush x:Key="GlassBrush" Color="#D9FFFFFF" />
+            <SolidColorBrush x:Key="GlassStrongBrush" Color="#F2FFFFFF" />
+            <SolidColorBrush x:Key="GlassHoverBrush" Color="#FAFFFFFF" />
+            <SolidColorBrush x:Key="PrimaryGlowBrush" Color="#2E0E5A61" />
+            <SolidColorBrush x:Key="FocusRingBrush" Color="#660E5A61" />
+            <SolidColorBrush x:Key="PopupBackgroundBrush" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="PopupBorderBrush" Color="#CAD9D7" />
+            <SolidColorBrush x:Key="ScrimBrush" Color="#66000000" />
+            <LinearGradientBrush x:Key="AppBackdropBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Offset="0.0" Color="#F5F9F9" />
+                <GradientStop Offset="0.5" Color="#EEF4F4" />
+                <GradientStop Offset="1.0" Color="#E3EEEE" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="GlassBorderBrush" StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Offset="0.0" Color="#FFFFFFFF" />
+                <GradientStop Offset="0.6" Color="#DEE9E7" />
+                <GradientStop Offset="1.0" Color="#CAD8D6" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="GlassBorderStrongBrush" StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Offset="0.0" Color="#800E5A61" />
+                <GradientStop Offset="1.0" Color="#330E5A61" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="PrimaryGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Offset="0.0" Color="#146F77" />
+                <GradientStop Offset="1.0" Color="#0B484E" />
+            </LinearGradientBrush>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

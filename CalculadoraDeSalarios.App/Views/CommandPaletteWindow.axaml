@@ -1,0 +1,90 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:CalculadoraDeSalarios.App.Controls"
+        xmlns:converters="clr-namespace:CalculadoraDeSalarios.App.Converters"
+        xmlns:vm="clr-namespace:CalculadoraDeSalarios.App.ViewModels"
+        x:Class="CalculadoraDeSalarios.App.Views.CommandPaletteWindow"
+        Title="Paleta de Comandos"
+        Width="580" Height="380"
+        CanResize="False"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        Background="{DynamicResource SurfaceBrush}">
+    <Window.Resources>
+        <converters:ResourceKeyToGeometryConverter x:Key="ResToGeo" />
+    </Window.Resources>
+    <Border BorderBrush="{DynamicResource BorderStrongBrush}"
+            BorderThickness="1"
+            CornerRadius="14"
+            ClipToBounds="True">
+        <Grid RowDefinitions="Auto,*,Auto">
+            <Border Grid.Row="0"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="0,0,0,1"
+                    Padding="14,10">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <controls:Icon Data="{DynamicResource IconSearch}" Size="18" Foreground="{DynamicResource Text2Brush}" VerticalAlignment="Center" Margin="0,0,10,0" />
+                    <TextBox Name="SearchBox"
+                             Grid.Column="1"
+                             PlaceholderText="Escribe un comando o navegación..."
+                             Background="Transparent"
+                             BorderThickness="0"
+                             FontSize="14"
+                             VerticalAlignment="Center" />
+                    <Border Grid.Column="2"
+                            Background="{DynamicResource Surface2Brush}"
+                            BorderBrush="{DynamicResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Padding="6,2">
+                        <TextBlock Text="ESC" FontSize="10.5" Foreground="{DynamicResource Text3Brush}" />
+                    </Border>
+                </Grid>
+            </Border>
+            <ListBox Name="CommandsList"
+                     Grid.Row="1"
+                     Background="Transparent"
+                     SelectionMode="Single"
+                     Padding="6">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:CommandPaletteItem">
+                        <Border Padding="10,8" CornerRadius="6" Background="Transparent">
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <controls:Icon Data="{Binding IconKey, Converter={StaticResource ResToGeo}}"
+                                               Size="16"
+                                               Foreground="{DynamicResource PrimaryBrush}"
+                                               VerticalAlignment="Center"
+                                               Margin="0,0,12,0" />
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Title}" FontWeight="Medium" FontSize="13" />
+                                    <TextBlock Text="{Binding Category}" FontSize="11" Foreground="{DynamicResource Text3Brush}" />
+                                </StackPanel>
+                                <Border Grid.Column="2"
+                                        IsVisible="{Binding Shortcut, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                        Background="{DynamicResource Surface2Brush}"
+                                        BorderBrush="{DynamicResource BorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="4"
+                                        Padding="6,2"
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Shortcut}" FontSize="11" Foreground="{DynamicResource Text3Brush}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Border Grid.Row="2"
+                    Background="{DynamicResource Surface2Brush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
+                    BorderThickness="0,1,0,0"
+                    Padding="14,8">
+                <StackPanel Orientation="Horizontal" Spacing="16">
+                    <TextBlock Text="↑↓ Navegar" Classes="caption" />
+                    <TextBlock Text="↵ Ejecutar" Classes="caption" />
+                    <TextBlock Text="Esc Cerrar" Classes="caption" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

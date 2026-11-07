@@ -1,0 +1,20 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:CalculadoraDeSalarios.App.ViewModels.Ajustes"
+             x:Class="CalculadoraDeSalarios.App.Controls.CampoAjusteControl"
+             x:DataType="vm:CampoAjusteViewModel">
+    <StackPanel Spacing="4">
+        <TextBlock Text="{Binding Etiqueta}"
+                   FontSize="11.5"
+                   FontWeight="Medium"
+                   Foreground="{DynamicResource Text3Brush}" />
+        <TextBox x:Name="InputBox"
+                 FontSize="12.5"
+                 MinHeight="32"
+                 Text="{Binding Texto, Mode=OneWay}"
+                 AcceptsReturn="{Binding EsMultilinea}"
+                 LostFocus="OnInputLostFocus"
+                 KeyDown="OnInputKeyDown"
+                 GotFocus="OnInputGotFocus" />
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,141 @@
+{
+ "state": {
+  "v": 2,
+  "cfg": {
+   "weeklyCap": 42,
+   "dailyRef": 7,
+   "dailyCapOn": false,
+   "nightStart": "19:00",
+   "nightEnd": "06:00",
+   "minuteRuleOn": true,
+   "minValid": 30,
+   "divisor": 210,
+   "rateRound": true,
+   "domOrdFull": false,
+   "smmlv": 1750905,
+   "auxilio": 249095,
+   "saludPct": 4,
+   "pensionPct": 4,
+   "deductBase": "basico",
+   "pct": {
+    "noc": 35,
+    "hed": 25,
+    "hen": 75,
+    "dom": 90
+   },
+   "turnos": [
+    "12:00-16:00",
+    "11:00-16:00",
+    "16:00-21:00",
+    "12:00-21:00",
+    "11:00-21:00"
+   ]
+  },
+  "festivos": [
+   "2026-01-01",
+   "2026-01-12",
+   "2026-03-23",
+   "2026-04-02",
+   "2026-04-03",
+   "2026-05-01",
+   "2026-05-18",
+   "2026-06-08",
+   "2026-06-15",
+   "2026-06-29",
+   "2026-07-20",
+   "2026-08-07",
+   "2026-08-17",
+   "2026-10-12",
+   "2026-11-02",
+   "2026-11-16",
+   "2026-12-08",
+   "2026-12-25"
+  ],
+  "emps": [
+   {
+    "id": "e1",
+    "name": "Empleado 1",
+    "cedula": "1001",
+    "cargo": "Operario",
+    "salario": "",
+    "aux": true,
+    "restDay": 3,
+    "days": {
+     "2026-10-01": {
+      "in1": "11:00",
+      "out1": "21:00",
+      "brk": 60
+     }
+    }
+   },
+   {
+    "id": "e2",
+    "name": "Empleado 2",
+    "cedula": "1002",
+    "cargo": "Cajero",
+    "salario": 2500000,
+    "aux": true,
+    "restDay": 0,
+    "days": {}
+   },
+   {
+    "id": "e3",
+    "name": "Empleado 3",
+    "cedula": "1003",
+    "cargo": "Administrador",
+    "salario": 4000000,
+    "aux": false,
+    "restDay": 1,
+    "days": {}
+   },
+   {
+    "id": "e4",
+    "name": "Empleado 4",
+    "cedula": "1004",
+    "cargo": "Operario",
+    "salario": 1800000,
+    "aux": true,
+    "restDay": 0,
+    "days": {}
+   },
+   {
+    "id": "e5",
+    "name": "Empleado 5",
+    "cedula": "1005",
+    "cargo": "Auxiliar",
+    "salario": 900000,
+    "aux": false,
+    "restDay": null,
+    "days": {}
+   },
+   {
+    "id": "e6",
+    "name": "Empleado 6",
+    "cedula": "1006",
+    "cargo": "Cocina",
+    "salario": 2000000,
+    "aux": true,
+    "restDay": 6,
+    "days": {}
+   }
+  ]
+ },
+ "ui": {
+  "tab": "liq",
+  "month": "2026-10",
+  "mode": "q1",
+  "from": "",
+  "to": "",
+  "sel": "e1",
+  "incl": true,
+  "search": "",
+  "dark": true
+ },
+ "history": [
+  {
+   "ts": 1730000000000,
+   "reason": "Respaldo inicial",
+   "payload": "{}"
+  }
+ ]
+}

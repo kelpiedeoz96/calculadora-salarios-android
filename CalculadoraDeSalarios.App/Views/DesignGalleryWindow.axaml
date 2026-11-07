@@ -1,0 +1,260 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:CalculadoraDeSalarios.App.Controls"
+        x:Class="CalculadoraDeSalarios.App.Views.DesignGalleryWindow"
+        Title="Galería de Inspección Visual · Sistema de Diseño"
+        Width="1100" Height="860" MinWidth="800" MinHeight="600"
+        WindowStartupLocation="CenterScreen">
+    <Grid RowDefinitions="Auto,*">
+        <!-- Barra superior de control de apariencia -->
+        <Border Grid.Row="0"
+                Background="{DynamicResource Bg2Brush}"
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="20,12">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <TextBlock Text="Tema:" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <Button Name="BtnThemeLight" Content="Claro" Classes="ghost" />
+                    <Button Name="BtnThemeDark" Content="Oscuro" Classes="ghost" />
+                    <Button Name="BtnThemeSystem" Content="Sistema" Classes="ghost" />
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                    <CheckBox Name="ChkReduceMotion" Content="Reducir animaciones (reduce-motion)" />
+                </StackPanel>
+            </Grid>
+        </Border>
+        <!-- Contenedor con scroll para inspeccionar todos los componentes -->
+        <ScrollViewer Grid.Row="1" Padding="28,24">
+            <StackPanel Spacing="24">
+                <!-- 1. TIPOGRAFÍA -->
+                <Border Classes="card">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="1. Jerarquía Tipográfica" Classes="h2" />
+                        <TextBlock Text="Título Principal H1 (Inter SemiBold 20px)" Classes="h1" />
+                        <TextBlock Text="Subtítulo de Módulo H2 (Inter SemiBold 14.5px)" Classes="h2" />
+                        <TextBlock Text="Texto regular de lectura de 13px estilo macOS con contraste equilibrado." />
+                        <TextBlock Text="Etiqueta secundaria o aclaratoria (.sub 12.5px)" Classes="sub" />
+                        <TextBlock Text="Texto de pie o metadatos técnicos (.caption 11.5px)" Classes="caption" />
+                    </StackPanel>
+                </Border>
+                <!-- 2. BOTONES -->
+                <Border Classes="card">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="2. Variantes de Botón" Classes="h2" />
+                        <WrapPanel Orientation="Horizontal">
+                            <Button Content="Botón Estándar" Margin="0,0,12,12" />
+                            <Button Content="Botón Primario" Classes="primary" Margin="0,0,12,12" />
+                            <Button Content="Botón Ghost" Classes="ghost" Margin="0,0,12,12" />
+                            <Button Content="Botón Danger" Classes="danger" Margin="0,0,12,12" />
+                            <Button Content="Deshabilitado" IsEnabled="False" Margin="0,0,12,12" />
+                            <Button Classes="icon-btn primary" Margin="0,0,12,12">
+                                <controls:Icon Data="{DynamicResource IconPlus}" Size="16" />
+                            </Button>
+                            <Button Classes="icon-btn ghost" Margin="0,0,12,12">
+                                <controls:Icon Data="{DynamicResource IconSearch}" Size="16" />
+                            </Button>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+                <!-- 3. INPUTS Y FORMULARIOS -->
+                <Border Classes="card">
+                    <StackPanel Spacing="14">
+                        <TextBlock Text="3. Entradas de Datos" Classes="h2" />
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="16">
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="TextBox Regular" Classes="caption" />
+                                <TextBox Text="Texto estándar" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Spacing="6">
+                                <TextBlock Text="TextBox Deshabilitado" Classes="caption" />
+                                <TextBox Text="No editable" IsEnabled="False" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Spacing="6">
+                                <TextBlock Text="ComboBox Desplegable" Classes="caption" />
+                                <ComboBox SelectedIndex="0" HorizontalAlignment="Stretch">
+                                    <ComboBoxItem Content="1ª quincena (1–15)" />
+                                    <ComboBoxItem Content="2ª quincena (16–fin)" />
+                                    <ComboBoxItem Content="Rango propio" />
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" Spacing="24">
+                            <CheckBox Content="Opción marcada" IsChecked="True" />
+                            <CheckBox Content="Opción desmarcada" IsChecked="False" />
+                            <CheckBox Content="Opción deshabilitada" IsEnabled="False" IsChecked="True" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <!-- 4. CHIPS DE LAS 8 CATEGORÍAS -->
+                <Border Classes="card">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="4. Chips de Categorías de Nómina (Bg / Fg pareados)" Classes="h2" />
+                        <WrapPanel Orientation="Horizontal">
+                            <!-- ODiu -->
+                            <Border Classes="chip" Background="{DynamicResource CatODiuBgBrush}" Margin="0,0,10,10">
+                                <TextBlock Text="Ord 8:00" Foreground="{DynamicResource CatODiuFgBrush}" FontWeight="SemiBold" FontSize="11" />
+                            </Border>
+                            <!-- ONoc -->
+                            <Border Classes="chip" Background="{DynamicResource CatONocBgBrush}" Margin="0,0,10,10">
+                                <TextBlock Text="Noc 2:00" Foreground="{DynamicResource CatONocFgBrush}" FontWeight="SemiBold" FontSize="11" />
+                            </Border>
+                            <!-- ODom -->
+                            <Border Classes="chip" Background="{DynamicResource CatODomBgBrush}" Margin="0,0,10,10">
+                                <TextBlock Text="Dom 4:00" Foreground="{DynamicResource CatODomFgBrush}" FontWeight="SemiBold" FontSize="11" />
+                            </Border>
+                            <!-- ONocDom -->
+                            <Border Classes="chip" Background="{DynamicResource CatONocDomBgBrush}" Margin="0,0,10,10">
+                                <TextBlock Text="Noc-Dom 1:30" Foreground="{DynamicResource CatONocDomFgBrush}" FontWeight="SemiBold" FontSize="11" />
+                            </Border>
+                            <!-- HED -->
+                            <Border Classes="chip" Background="{DynamicResource CatHEDBgBrush}" Margin="0,0,10,10">
+                                <TextBlock Text="HED 3:00" Foreground="{DynamicResource CatHEDFgBrush}" FontWeight="SemiBold" FontSize="11" />
+                            </Border>
+                            <!-- HEN -->
+                            <Border Classes="chip" Background="{DynamicResource CatHENBgBrush}" Margin="0,0,10,10">
+                                <TextBlock Text="HEN 2:15" Foreground="{DynamicResource CatHENFgBrush}" FontWeight="SemiBold" FontSize="11" />
+                            </Border>
+                            <!-- HEDDom -->
+                            <Border Classes="chip" Background="{DynamicResource CatHEDDomBgBrush}" Margin="0,0,10,10">
+                                <TextBlock Text="HED-Dom 1:00" Foreground="{DynamicResource CatHEDDomFgBrush}" FontWeight="SemiBold" FontSize="11" />
+                            </Border>
+                            <!-- HENDom -->
+                            <Border Classes="chip" Background="{DynamicResource CatHENDomBgBrush}" Margin="0,0,10,10">
+                                <TextBlock Text="HEN-Dom 0:45" Foreground="{DynamicResource CatHENDomFgBrush}" FontWeight="SemiBold" FontSize="11" />
+                            </Border>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+                <!-- 5. LOS 28 ÍCONOS VECTORIALES -->
+                <Border Classes="card">
+                    <StackPanel Spacing="14">
+                        <TextBlock Text="5. Catálogo de los 28 Íconos Vectoriales (StreamGeometry)" Classes="h2" />
+                        <TextBlock Text="Renderizados mediante Controls:Icon con Pen de 1.8 px y extremos redondeados." Classes="caption" />
+                        <Grid Name="IconsGrid" ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" Margin="0,8,0,0">
+                            <!-- Fila 1 -->
+                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconDashboard}" Size="18" Foreground="{DynamicResource PrimaryBrush}" />
+                                <TextBlock Text="Dashboard" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconReceipt}" Size="18" Foreground="{DynamicResource PrimaryBrush}" />
+                                <TextBlock Text="Receipt" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconUsers}" Size="18" Foreground="{DynamicResource PrimaryBrush}" />
+                                <TextBlock Text="Users" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="3" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconCalendar}" Size="18" Foreground="{DynamicResource PrimaryBrush}" />
+                                <TextBlock Text="Calendar" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <!-- Fila 2 -->
+                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconHistory}" Size="18" Foreground="{DynamicResource PrimaryBrush}" />
+                                <TextBlock Text="History" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconSettings}" Size="18" Foreground="{DynamicResource PrimaryBrush}" />
+                                <TextBlock Text="Settings" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconSearch}" Size="18" />
+                                <TextBlock Text="Search" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconSun}" Size="18" Foreground="{DynamicResource AccentBrush}" />
+                                <TextBlock Text="Sun" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <!-- Fila 3 -->
+                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconMoon}" Size="18" Foreground="{DynamicResource NightBrush}" />
+                                <TextBlock Text="Moon" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconPlus}" Size="18" />
+                                <TextBlock Text="Plus" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconChevronL}" Size="18" />
+                                <TextBlock Text="ChevronL" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconChevronR}" Size="18" />
+                                <TextBlock Text="ChevronR" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <!-- Fila 4 -->
+                            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconDown}" Size="18" />
+                                <TextBlock Text="Down" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconX}" Size="18" Foreground="{DynamicResource DangerBrush}" />
+                                <TextBlock Text="X (Cerrar)" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconDownload}" Size="18" />
+                                <TextBlock Text="Download" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="3" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconUpload}" Size="18" />
+                                <TextBlock Text="Upload" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <!-- Fila 5 -->
+                            <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconTrash}" Size="18" Foreground="{DynamicResource DangerBrush}" />
+                                <TextBlock Text="Trash" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconFile}" Size="18" />
+                                <TextBlock Text="File" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconFileXls}" Size="18" Foreground="{DynamicResource OkBrush}" />
+                                <TextBlock Text="FileXls" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="4" Grid.Column="3" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconFilePdf}" Size="18" Foreground="{DynamicResource DangerBrush}" />
+                                <TextBlock Text="FilePdf" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <!-- Fila 6 -->
+                            <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconCheck}" Size="18" Foreground="{DynamicResource OkBrush}" />
+                                <TextBlock Text="Check" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconInfo}" Size="18" Foreground="{DynamicResource PrimaryBrush}" />
+                                <TextBlock Text="Info" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="5" Grid.Column="2" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconWarn}" Size="18" Foreground="{DynamicResource WarnBrush}" />
+                                <TextBlock Text="Warn" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="5" Grid.Column="3" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconSparkles}" Size="18" Foreground="{DynamicResource AccentBrush}" />
+                                <TextBlock Text="Sparkles" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <!-- Fila 7 -->
+                            <StackPanel Grid.Row="6" Grid.Column="0" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconFish}" Size="18" Foreground="{DynamicResource PrimaryBrush}" />
+                                <TextBlock Text="Fish (Logo)" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconCoffee}" Size="18" Foreground="{DynamicResource AccentBrush}" />
+                                <TextBlock Text="Coffee" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="6" Grid.Column="2" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconArrowUp}" Size="18" />
+                                <TextBlock Text="ArrowUp" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="6" Grid.Column="3" Orientation="Horizontal" Spacing="10" Margin="0,6">
+                                <controls:Icon Data="{DynamicResource IconArrowDown}" Size="18" />
+                                <TextBlock Text="ArrowDown" VerticalAlignment="Center" FontSize="12" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

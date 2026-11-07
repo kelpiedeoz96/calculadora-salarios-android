@@ -1,0 +1,8 @@
+{
+  "name": "Calculadora de Salarios Colombia",
+  "description": "Liquidación de nómina por horas para Colombia: recargos nocturnos, horas extra, dominicales, festivos y prestaciones.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

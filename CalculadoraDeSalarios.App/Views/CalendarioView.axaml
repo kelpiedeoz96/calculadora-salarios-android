@@ -1,0 +1,99 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:CalculadoraDeSalarios.App.Controls"
+             xmlns:vm="clr-namespace:CalculadoraDeSalarios.App.ViewModels.Calendario"
+             x:Class="CalculadoraDeSalarios.App.Views.CalendarioView"
+             x:DataType="vm:CalendarioViewModel">
+    <ScrollViewer Padding="28,20,28,40">
+        <StackPanel Spacing="16">
+            <!-- Sin empleados -->
+            <Border Classes="card d1" IsVisible="{Binding SinEmpleado}">
+                <StackPanel Spacing="6" HorizontalAlignment="Center" Margin="0,32">
+                    <controls:Icon Data="{DynamicResource IconCalendar}" Size="36" Foreground="{DynamicResource Text3Brush}" HorizontalAlignment="Center" />
+                    <TextBlock Text="Sin empleados" Classes="h2" HorizontalAlignment="Center" />
+                    <TextBlock Text="Agrega un empleado para ver su calendario." Classes="sub" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Border>
+            <!-- Calendario -->
+            <Border Classes="card d2" IsVisible="{Binding HayEmpleado}">
+                <StackPanel Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Text="{Binding Titulo}" Classes="h2" />
+                        <TextBlock Grid.Column="1" Text="{Binding PeriodLabel}" Classes="caption" VerticalAlignment="Center" />
+                    </Grid>
+                    <!-- Lunes a domingo -->
+                    <UniformGrid Columns="7" Margin="0,4,0,0">
+                        <TextBlock Text="LUN" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource Text3Brush}" HorizontalAlignment="Center" />
+                        <TextBlock Text="MAR" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource Text3Brush}" HorizontalAlignment="Center" />
+                        <TextBlock Text="MIÉ" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource Text3Brush}" HorizontalAlignment="Center" />
+                        <TextBlock Text="JUE" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource Text3Brush}" HorizontalAlignment="Center" />
+                        <TextBlock Text="VIE" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource Text3Brush}" HorizontalAlignment="Center" />
+                        <TextBlock Text="SÁB" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource Text3Brush}" HorizontalAlignment="Center" />
+                        <TextBlock Text="DOM" FontSize="10.5" FontWeight="SemiBold" Foreground="{DynamicResource Text3Brush}" HorizontalAlignment="Center" />
+                    </UniformGrid>
+                    <ItemsControl ItemsSource="{Binding Celdas}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="7" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:DiaCeldaViewModel">
+                                <Button Classes="daycell"
+                                        Classes.dom="{Binding IsDom}"
+                                        Classes.today="{Binding IsToday}"
+                                        Classes.outside="{Binding IsOutside}"
+                                        Classes.placeholder="{Binding IsPlaceholder}"
+                                        Command="{Binding SeleccionarCommand}"
+                                        ToolTip.Tip="{Binding TooltipText}"
+                                        Margin="3">
+                                    <Grid RowDefinitions="Auto,*,Auto">
+                                        <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                                            <TextBlock Text="{Binding Dia}"
+                                                       Classes="daynum"
+                                                       Classes.dom="{Binding IsDom}"
+                                                       IsVisible="{Binding !IsPlaceholder}" />
+                                            <Border Grid.Column="1"
+                                                    Width="8" Height="8" CornerRadius="4"
+                                                    Background="{DynamicResource WarnBrush}"
+                                                    IsVisible="{Binding IsFest}"
+                                                    VerticalAlignment="Center" />
+                                        </Grid>
+                                        <TextBlock Grid.Row="1"
+                                                   Text="{Binding HorasFormatted}"
+                                                   FontSize="12"
+                                                   Foreground="{DynamicResource Text2Brush}"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"
+                                                   IsVisible="{Binding HasHoras}" />
+                                        <controls:MiniBar Grid.Row="2"
+                                                          Fraction="{Binding Fraccion}"
+                                                          UseAccent="{Binding BarraExtra}"
+                                                          IsVisible="{Binding HasBar}"
+                                                          VerticalAlignment="Bottom" />
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <!-- Leyenda -->
+                    <WrapPanel Orientation="Horizontal" Margin="0,6,0,0">
+                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,16,4">
+                            <Border Width="10" Height="10" CornerRadius="5" Background="{DynamicResource PrimaryBrush}" VerticalAlignment="Center" />
+                            <TextBlock Text="Día trabajado" FontSize="11.5" Foreground="{DynamicResource Text2Brush}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,16,4">
+                            <Border Width="10" Height="10" CornerRadius="5" Background="{DynamicResource AccentBrush}" VerticalAlignment="Center" />
+                            <TextBlock Text="Con horas extra" FontSize="11.5" Foreground="{DynamicResource Text2Brush}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,16,4">
+                            <Border Width="10" Height="10" CornerRadius="5" Background="{DynamicResource DomBrush}" VerticalAlignment="Center" />
+                            <TextBlock Text="Dominical / festivo / descanso" FontSize="11.5" Foreground="{DynamicResource Text2Brush}" />
+                        </StackPanel>
+                    </WrapPanel>
+                    <TextBlock Text="Haz clic en un día para ver solo ese día en Liquidación." FontSize="11.5" Foreground="{DynamicResource Text3Brush}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

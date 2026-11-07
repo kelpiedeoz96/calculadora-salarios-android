@@ -1,0 +1,184 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:CalculadoraDeSalarios.App.Controls"
+             xmlns:conv="clr-namespace:CalculadoraDeSalarios.App.Converters"
+             xmlns:vm="clr-namespace:CalculadoraDeSalarios.App.ViewModels.Panel"
+             x:Class="CalculadoraDeSalarios.App.Views.DashboardView"
+             x:DataType="vm:DashboardViewModel">
+    <ScrollViewer Padding="28,20,28,40">
+        <StackPanel Spacing="16">
+            <!-- 1. FILA DE 4 KPIs -->
+            <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="12">
+                <Border Grid.Column="0" Classes="kpi d1">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="EMPLEADOS" FontSize="11.5" FontWeight="SemiBold" Foreground="{DynamicResource Text3Brush}" />
+                        <controls:CountUpTextBlock Target="{Binding KpiEmpleados}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" Margin="0,2" />
+                        <TextBlock Text="activos en nómina" FontSize="11.5" Foreground="{DynamicResource Text2Brush}" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Classes="kpi d2">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="HORAS TOTALES" FontSize="11.5" FontWeight="SemiBold" Foreground="{DynamicResource Text3Brush}" />
+                        <controls:CountUpTextBlock Target="{Binding KpiHorasTotales}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" Margin="0,2" />
+                        <TextBlock Text="en el periodo" FontSize="11.5" Foreground="{DynamicResource Text2Brush}" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2" Classes="kpi primary d3">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="RECARGOS + EXTRAS" FontSize="11.5" FontWeight="SemiBold" Foreground="{DynamicResource OnPrimaryBrush}" Opacity="0.8" />
+                        <controls:CountUpTextBlock Target="{Binding KpiRecargos}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource OnPrimaryBrush}" Margin="0,2" />
+                        <TextBlock Text="a pagar en la quincena" FontSize="11.5" Foreground="{DynamicResource OnPrimaryBrush}" Opacity="0.85" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="3" Classes="kpi d4">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="HORAS EXTRA" FontSize="11.5" FontWeight="SemiBold" Foreground="{DynamicResource Text3Brush}" />
+                        <controls:CountUpTextBlock Target="{Binding KpiHorasExtra}" FontSize="22" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" Margin="0,2" />
+                        <TextBlock Text="{Binding KpiHorasExtraPct}" FontSize="11.5" Foreground="{DynamicResource Text2Brush}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <!-- 2. HORAS POR CATEGORÍA + TOP EMPLEADOS -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                <Border Grid.Column="0" Classes="card d5">
+                    <StackPanel Spacing="12">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="Horas por categoría" Classes="h2" />
+                            <TextBlock Grid.Column="1" Text="{Binding PeriodLabel}" Classes="caption" VerticalAlignment="Center" />
+                        </Grid>
+                        <TextBlock Text="Aún no hay horas registradas en este periodo."
+                                   Foreground="{DynamicResource Text2Brush}"
+                                   TextWrapping="Wrap"
+                                   IsVisible="{Binding HasNoCategorias}" />
+                        <ItemsControl ItemsSource="{Binding Categorias}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:CategoriaBarItemViewModel">
+                                    <StackPanel Spacing="5" Margin="0,2,0,8">
+                                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                                            <Border Classes="chip"
+                                                    Background="{Binding Cat, Converter={x:Static conv:CategoryBrushConverter.Background}}">
+                                                <TextBlock Text="{Binding ShortLabel}"
+                                                           Foreground="{Binding Cat, Converter={x:Static conv:CategoryBrushConverter.Foreground}}"
+                                                           FontSize="11"
+                                                           FontWeight="SemiBold" />
+                                            </Border>
+                                            <TextBlock Grid.Column="1" Text="{Binding Label}" Classes="sub" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Grid.Column="2" Text="{Binding HoursFormatted}" Classes="sub" VerticalAlignment="Center" />
+                                        </Grid>
+                                        <controls:FractionBar Fraction="{Binding Fraction}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Classes="card d6">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Top empleados por recargos" Classes="h2" />
+                        <TextBlock Text="Agrega empleados para empezar."
+                                   Foreground="{DynamicResource Text2Brush}"
+                                   IsVisible="{Binding HasNoTopEmpleados}" />
+                        <ItemsControl ItemsSource="{Binding TopEmpleados}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:TopEmpleadoItemViewModel">
+                                    <Border Background="{DynamicResource SurfaceBrush}"
+                                            BorderBrush="{DynamicResource BorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="10"
+                                            Padding="12,10"
+                                            Margin="0,0,0,8">
+                                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                            <controls:EmpleadoAvatar Grid.Column="0" Width="34" Height="34" CornerRadius="8" InitialsFontSize="12"
+                                                  Initials="{Binding Initials}" Fill="{Binding AvatarBrush}" PhotoRelPath="{Binding PhotoRelPath}" />
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="13"
+                                                           Foreground="{DynamicResource TextBrush}" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{Binding DetailFormatted}" FontSize="12"
+                                                           Foreground="{DynamicResource Text2Brush}" />
+                                            </StackPanel>
+                                            <Button Grid.Column="2"
+                                                    Command="{Binding OpenCommand}"
+                                                    Classes="ghost"
+                                                    Content="Abrir"
+                                                    VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <!-- 3. ALERTAS Y AVISOS -->
+            <Border Classes="card d7">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Alertas y avisos" Classes="h2" />
+                    <TextBlock Text="Sin alertas. Todo en orden."
+                               Foreground="{DynamicResource Text2Brush}"
+                               IsVisible="{Binding !HasAlertas}" />
+                    <Border Background="{DynamicResource WarnSoftBrush}"
+                            CornerRadius="10"
+                            Padding="14,10"
+                            IsVisible="{Binding HasAlertas}">
+                        <ItemsControl ItemsSource="{Binding Alertas}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <TextBlock Text="{Binding}"
+                                               Foreground="{DynamicResource WarnBrush}"
+                                               FontSize="12.5"
+                                               Margin="0,2"
+                                               TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                </StackPanel>
+            </Border>
+            <!-- 4. DISTRIBUCIÓN DE HORAS + RESUMEN ECONÓMICO -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                <Border Grid.Column="0" Classes="card d8">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Distribución de horas" Classes="h2" Margin="0,0,0,4" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="Horas ordinarias" FontSize="13" Foreground="{DynamicResource TextBrush}" />
+                            <TextBlock Grid.Column="1" Text="{Binding DistOrdinarias}" FontSize="13" Foreground="{DynamicResource TextBrush}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="Horas nocturnas" FontSize="13" Foreground="{DynamicResource TextBrush}" />
+                            <TextBlock Grid.Column="1" Text="{Binding DistNocturnas}" FontSize="13" Foreground="{DynamicResource TextBrush}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="Horas dominicales / festivas" FontSize="13" Foreground="{DynamicResource TextBrush}" />
+                            <TextBlock Grid.Column="1" Text="{Binding DistDominicales}" FontSize="13" Foreground="{DynamicResource TextBrush}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,6,0,0">
+                            <TextBlock Text="Horas extra" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" />
+                            <TextBlock Grid.Column="1" Text="{Binding DistExtra}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" Classes="card d8">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Resumen económico" Classes="h2" Margin="0,0,0,4" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="Total recargos + extras" FontSize="13" Foreground="{DynamicResource TextBrush}" />
+                            <TextBlock Grid.Column="1" Text="{Binding ResumenTotalRecargos}" FontSize="13" Foreground="{DynamicResource TextBrush}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="Empleados con horas extra" FontSize="13" Foreground="{DynamicResource TextBrush}" />
+                            <TextBlock Grid.Column="1" Text="{Binding ResumenConExtra}" FontSize="13" Foreground="{DynamicResource TextBrush}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="Promedio por empleado" FontSize="13" Foreground="{DynamicResource TextBrush}" />
+                            <TextBlock Grid.Column="1" Text="{Binding ResumenPromedio}" FontSize="13" Foreground="{DynamicResource TextBrush}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,6,0,0">
+                            <TextBlock Text="Total a pagar" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" />
+                            <TextBlock Grid.Column="1" Text="{Binding ResumenTotalPagar}" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
