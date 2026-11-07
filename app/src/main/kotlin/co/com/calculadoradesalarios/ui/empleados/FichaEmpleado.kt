@@ -91,6 +91,7 @@ fun FichaEmpleadoContenido(ficha: FichaEmpleado, acciones: AccionesFicha, modifi
             CampoConfirmable(
                 "Salario mensual (vacío = mínimo)", ficha.salarioTexto, { acciones.confirmar(CampoEmpleado.Salario, it) },
                 teclado = KeyboardType.Number, marcador = ficha.placeholderSalario,
+                error = ficha.errores[CampoEmpleado.Salario],
             )
             if (ficha.avisoSalario != null) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {

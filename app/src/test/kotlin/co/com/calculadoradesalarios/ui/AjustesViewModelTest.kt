@@ -38,7 +38,7 @@ class AjustesViewModelTest {
     @Test
     fun numeroValido_SeAplica_YDejaCopiaEnElHistorial() = runTest {
         val (repo, vm) = crear()
-        vm.confirmar(CampoAjuste.Smmlv, "1.800.000")  // TryParseNumero no acepta separador de miles
+        vm.confirmar(CampoAjuste.Smmlv, "abc")
         assertEquals("Valor no válido: se mantuvo el anterior.", vm.estado.value.errores[CampoAjuste.Smmlv])
         assertEquals(1750905.0, repo.datos.value!!.state.cfg.smmlv, 0.0)
 

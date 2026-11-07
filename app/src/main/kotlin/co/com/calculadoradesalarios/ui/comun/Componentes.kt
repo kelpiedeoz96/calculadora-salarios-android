@@ -71,6 +71,7 @@ fun CampoConfirmable(
     marcador: String? = null,
     ayuda: String? = null,
     unaLinea: Boolean = true,
+    iconoFinal: (@Composable () -> Unit)? = null,
 ) {
     var texto by rememberSaveable(valor) { mutableStateOf(valor) }
     var tuvoFoco by remember { mutableStateOf(false) }
@@ -85,6 +86,7 @@ fun CampoConfirmable(
         label = { Text(etiqueta) },
         placeholder = marcador?.let { { Text(it) } },
         isError = error != null,
+        trailingIcon = iconoFinal,
         supportingText = (error ?: ayuda)?.let { { Text(it) } },
         singleLine = unaLinea,
         keyboardOptions = KeyboardOptions(keyboardType = teclado, imeAction = ImeAction.Done),

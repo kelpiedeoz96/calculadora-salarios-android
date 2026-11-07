@@ -13,6 +13,7 @@ import co.com.calculadoradesalarios.engine.Employee
 import co.com.calculadoradesalarios.engine.Engine
 import co.com.calculadoradesalarios.engine.Fmt
 import co.com.calculadoradesalarios.engine.PeriodoCalc
+import co.com.calculadoradesalarios.ui.comun.EntradaNumerica
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -69,6 +70,7 @@ data class FichaEmpleado(
     val tono: Int,
     val avisoSalario: String?,
     val placeholderSalario: String,
+    val errores: Map<CampoEmpleado, String> = emptyMap(),
 )
 
 enum class CampoEmpleado { Nombre, Cedula, Cargo, Salario }
@@ -91,11 +93,12 @@ class EmpleadosViewModel(
     calculo: CoroutineDispatcher = Dispatchers.Default,
 ) : ViewModel() {
     private data class Eliminado(val indice: Int, val emp: Employee)
+    private val erroresFicha = kotlinx.coroutines.flow.MutableStateFlow<Map<CampoEmpleado, String>>(emptyMap())
     private var ultimoEliminado: Eliminado? = null
 
     val estado: StateFlow<EmpleadosEstado> =
-        combine(repo.datos, guardado.getStateFlow<String?>(ClaveFicha, null)) { d, fichaId ->
-            if (d == null) EmpleadosEstado() else construir(d, fichaId)
+        combine(repo.datos, guardado.getStateFlow<String?>(ClaveFicha, null), erroresFicha) { d, fichaId, err ->
+            if (d == null) EmpleadosEstado() else construir(d, fichaId).let { e -> e.copy(ficha = e.ficha?.copy(errores = err)) }
         }.flowOn(calculo).stateIn(viewModelScope, SharingStarted.Eagerly, EmpleadosEstado())
 
     private fun construir(d: DatosNomina, fichaId: String?): EmpleadosEstado {
@@ -166,6 +169,7 @@ class EmpleadosViewModel(
     fun fijarInclSueldo(valor: Boolean) = repo.editarUi { it.incl = valor }
 
     fun abrirFicha(id: String) {
+        erroresFicha.value = emptyMap()
         guardado[ClaveFicha] = id
     }
 
@@ -182,7 +186,16 @@ class EmpleadosViewModel(
     }
 
     /** CommitEmpField del escritorio. */
-    fun confirmar(id: String, campo: CampoEmpleado, texto: String) = editarEmpleado(id) { e ->
+    fun confirmar(id: String, campo: CampoEmpleado, texto: String): Boolean {
+        if (campo == CampoEmpleado.Salario) {
+            val r = EntradaNumerica.salario(texto)
+            if (r is EntradaNumerica.Resultado.Invalido) { erroresFicha.value = erroresFicha.value + (campo to r.mensaje); return false }
+        }
+        erroresFicha.value = erroresFicha.value - campo
+        return confirmarValido(id, campo, texto)
+    }
+
+    private fun confirmarValido(id: String, campo: CampoEmpleado, texto: String) = editarEmpleado(id) { e ->
         when (campo) {
             CampoEmpleado.Nombre -> cambiar(e.name, texto.trim()) { e.name = it }
             CampoEmpleado.Cedula -> cambiar(e.cedula, texto.trim()) { e.cedula = it }

@@ -8,6 +8,8 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -46,6 +48,11 @@ import co.com.calculadoradesalarios.ui.empleados.AccionesFicha
 import co.com.calculadoradesalarios.ui.empleados.EmpleadosContenido
 import co.com.calculadoradesalarios.ui.empleados.EmpleadosViewModel
 import co.com.calculadoradesalarios.ui.empleados.FichaEmpleadoContenido
+import co.com.calculadoradesalarios.ui.liquidacion.AccionesDia
+import co.com.calculadoradesalarios.ui.liquidacion.AccionesLiquidacion
+import co.com.calculadoradesalarios.ui.liquidacion.EditorDiaContenido
+import co.com.calculadoradesalarios.ui.liquidacion.LiquidacionContenido
+import co.com.calculadoradesalarios.ui.liquidacion.LiquidacionViewModel
 import co.com.calculadoradesalarios.ui.principal.EnConstruccion
 import co.com.calculadoradesalarios.ui.principal.Pestana
 import co.com.calculadoradesalarios.ui.principal.PrincipalContenido
@@ -70,11 +77,13 @@ fun AppNomina(repo: NominaRepository) {
             initializer { PrincipalViewModel(repo) }
             initializer { AjustesViewModel(repo) }
             initializer { EmpleadosViewModel(repo, createSavedStateHandle()) }
+            initializer { LiquidacionViewModel(repo, createSavedStateHandle()) }
         }
     }
     val principalVm: PrincipalViewModel = viewModel(factory = fabrica)
     val ajustesVm: AjustesViewModel = viewModel(factory = fabrica)
     val empleadosVm: EmpleadosViewModel = viewModel(factory = fabrica)
+    val liquidacionVm: LiquidacionViewModel = viewModel(factory = fabrica)
 
     val principal by principalVm.estado.collectAsStateWithLifecycle()
     val snackbar = remember { SnackbarHostState() }
@@ -104,6 +113,7 @@ fun AppNomina(repo: NominaRepository) {
                 ) { pestana, mod ->
                     when (pestana) {
                         Pestana.Empleados -> EmpleadosRuta(empleadosVm, snackbar, mod)
+                        Pestana.Liquidacion -> LiquidacionRuta(liquidacionVm, mod)
                         Pestana.Ajustes -> AjustesRuta(ajustesVm, snackbar, mod)
                         else -> EnConstruccion(pestana, mod)
                     }
@@ -116,6 +126,38 @@ fun AppNomina(repo: NominaRepository) {
                     }
                 }
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun LiquidacionRuta(vm: LiquidacionViewModel, modifier: Modifier) {
+    val estado by vm.estado.collectAsStateWithLifecycle()
+    LiquidacionContenido(
+        estado,
+        AccionesLiquidacion(
+            seleccionar = vm::seleccionar,
+            inclSueldo = vm::fijarInclSueldo,
+            abrirDia = vm::abrirDia,
+            limpiarPeriodo = vm::limpiarPeriodo,
+            agregarEmpleado = vm::agregarEmpleado,
+        ),
+        textoConfirmarLimpiar = vm.textoConfirmarLimpiar(),
+        modifier = modifier,
+    )
+    estado.diaAbierto?.let { d ->
+        ModalBottomSheet(onDismissRequest = vm::cerrarDia) {
+            EditorDiaContenido(
+                d, estado.turnosRapidos, estado.erroresDia,
+                AccionesDia(
+                    confirmar = { campo, texto -> vm.confirmar(d.clave, campo, texto) },
+                    descanso = { vm.fijarDescanso(d.clave, it) },
+                    turno = { vm.aplicarTurno(d.clave, it) },
+                    limpiar = { vm.limpiarDia(d.clave) },
+                ),
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+            )
         }
     }
 }

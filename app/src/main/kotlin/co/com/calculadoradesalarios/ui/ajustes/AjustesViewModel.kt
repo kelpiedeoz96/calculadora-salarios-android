@@ -12,6 +12,7 @@ import co.com.calculadoradesalarios.engine.HistorialCalc
 import co.com.calculadoradesalarios.engine.JsonConfig
 import co.com.calculadoradesalarios.engine.AppState
 import co.com.calculadoradesalarios.engine.RespaldoAutomatico
+import co.com.calculadoradesalarios.ui.comun.EntradaNumerica
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -188,7 +189,11 @@ class AjustesViewModel(
         val cfgActual = repo.datos.value?.state?.cfg ?: return
         when (campo.tipo) {
             TipoCampo.Numero -> {
-                val (ok, v) = AjustesCalc.TryParseNumero(texto)
+                val normal = when (val r = EntradaNumerica.decimal(texto)) {
+                    is EntradaNumerica.Resultado.Invalido -> return fijarError(campo, r.mensaje)
+                    is EntradaNumerica.Resultado.Valido -> r.texto
+                }
+                val (ok, v) = AjustesCalc.TryParseNumero(normal)
                 if (!ok) return fijarError(campo, "Valor no válido: se mantuvo el anterior.")
                 if (campo == CampoAjuste.Divisor && v <= 0) return fijarError(campo, "El divisor debe ser mayor que 0.")
                 fijarError(campo, null)
