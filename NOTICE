@@ -1,0 +1,32 @@
+Calculadora de Salarios Colombia (Android)
+Copyright (c) 2026 Jonnathan Cundar Rosero
+Licencia del código: MIT (ver LICENSE).
+
+Este producto incluye software y fuentes de terceros, distribuidos con sus propias licencias:
+
+------------------------------------------------------------------------------------------------
+Fuente Lato (Regular y Bold)
+Copyright (c) 2010-2014 by tyPoland Lukasz Dziedzic (team@latofonts.com), con nombre de fuente
+reservado "Lato".
+Licencia: SIL Open Font License, versión 1.1.
+Texto completo: engine/src/main/resources/fuentes/OFL.txt (también va dentro del APK).
+Uso: se incrusta (en subconjunto) en los PDF que genera la app.
+
+------------------------------------------------------------------------------------------------
+Librerías incluidas en la app (todas con Apache License 2.0,
+https://www.apache.org/licenses/LICENSE-2.0):
+
+- Kotlin Standard Library — JetBrains s.r.o. y colaboradores de Kotlin
+- kotlinx.coroutines — JetBrains s.r.o.
+- kotlinx.serialization — JetBrains s.r.o.
+- JetBrains Java Annotations — JetBrains s.r.o.
+- Android Jetpack (AndroidX): Core, Activity, Lifecycle, SavedState, Compose (Runtime, UI,
+  Foundation, Animation, Material 3, Material Icons), Window, Emoji2, Startup, ProfileInstaller,
+  Tracing, Collection, Annotation y sus dependencias — The Android Open Source Project
+- Guava ListenableFuture (marcador vacío) — The Guava Authors
+- JSpecify — The JSpecify Authors
+
+------------------------------------------------------------------------------------------------
+Herramientas usadas solo para compilar y probar (no se distribuyen con la app):
+Gradle, Android Gradle Plugin y R8 (Apache 2.0), JUnit 4 (EPL 1.0), JUnit 5 (EPL 2.0),
+Robolectric (MIT), Roborazzi (Apache 2.0), kotlinx-coroutines-test (Apache 2.0).

@@ -1,9 +1,19 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.roborazzi)
 }
+
+/**
+ * Firma del release: keystore.properties en la raíz (NO se versiona, ver .gitignore) con storeFile y
+ * keyAlias. Las contraseñas van ahí o en las variables de entorno CALC_STORE_PASSWORD y
+ * CALC_KEY_PASSWORD. Sin ese archivo, assembleRelease produce un APK sin firmar.
+ */
+val firma: Properties? = rootProject.file("keystore.properties").takeIf { it.exists() }
+    ?.let { f -> Properties().apply { f.inputStream().use { load(it) } } }
 
 android {
     namespace = "co.com.calculadoradesalarios"
@@ -20,14 +30,23 @@ android {
     }
 
     signingConfigs {
-        create("release") {
-            // Placeholder for release signing
+        if (firma != null) {
+            create("release") {
+                storeFile = file(firma.getProperty("storeFile") ?: error("keystore.properties: falta storeFile"))
+                keyAlias = firma.getProperty("keyAlias") ?: error("keystore.properties: falta keyAlias")
+                storePassword = firma.getProperty("storePassword") ?: System.getenv("CALC_STORE_PASSWORD")
+                    ?: error("Falta la contraseña del keystore (storePassword o CALC_STORE_PASSWORD)")
+                keyPassword = firma.getProperty("keyPassword") ?: System.getenv("CALC_KEY_PASSWORD")
+                    ?: storePassword
+            }
         }
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            if (firma != null) signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

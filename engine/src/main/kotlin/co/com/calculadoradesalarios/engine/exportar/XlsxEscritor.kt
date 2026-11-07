@@ -29,7 +29,8 @@ object XlsxEscritor {
         val salida = ByteArrayOutputStream()
         ZipOutputStream(salida).use { z ->
             fun poner(ruta: String, xml: String) {
-                z.putNextEntry(ZipEntry(ruta)); z.write(xml.toByteArray(Charsets.UTF_8)); z.closeEntry()
+                // Fecha fija: el mismo libro produce siempre los mismos bytes (sin la hora en que se generó).
+                z.putNextEntry(ZipEntry(ruta).apply { time = FechaFija }); z.write(xml.toByteArray(Charsets.UTF_8)); z.closeEntry()
             }
             poner("[Content_Types].xml", contentTypes(hojas.size))
             poner("_rels/.rels", Cab + """<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">""" +
@@ -56,6 +57,9 @@ object XlsxEscritor {
     }
 
     const val RellenoColumna = 0.710625
+
+    /** 1 de enero de 2026 a mediodía: fecha guardada en las entradas del zip. */
+    private val FechaFija = java.time.LocalDateTime.of(2026, 1, 1, 12, 0).atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli()
 
     private const val Cab = """<?xml version="1.0" encoding="UTF-8" standalone="yes"?>""" + "\n"
 

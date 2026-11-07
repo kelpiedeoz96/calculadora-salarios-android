@@ -5,7 +5,7 @@ build/
 local.properties
 *.jks
 *.keystore
-!debug.keystore
+keystore.properties
 
 bin/
 obj/

@@ -58,6 +58,15 @@ class XlsxTest {
     }
 
     @Test
+    fun mismoLibro_MismosBytes() {
+        val e = Escenarios.todos[3]
+        val a = ExcelNomina.xlsx(e.st, e.incl, e.st.emps, e.desde, e.hasta)
+        Thread.sleep(2100) // el zip guarda la hora con resolución de 2 s
+        val b = ExcelNomina.xlsx(e.st, e.incl, e.st.emps, e.desde, e.hasta)
+        assertTrue(a.contentEquals(b), "el .xlsx debe ser determinista")
+    }
+
+    @Test
     fun columnas_YNombresDeHoja() {
         assertEquals(listOf("A", "Z", "AA", "AB", "AZ", "BA"), listOf(0, 25, 26, 27, 51, 52).map(XlsxEscritor::columna))
         assertThrows(IllegalArgumentException::class.java) { XlsxEscritor.escribir(listOf(HojaXlsx("a/b", listOf(listOf(CeldaXlsx.Texto("x"))), emptyList()))) }
