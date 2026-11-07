@@ -30,3 +30,6 @@ referencia/
 # Capturas de pantalla generadas por Roborazzi (se regeneran con recordRoborazziDebug)
 **/capturas/
 **/outputs/roborazzi/
+
+# Lo genera la tarea updateDaemonJvm de Gradle; fijaría un JDK que se descarga de Internet
+gradle/gradle-daemon-jvm.properties
